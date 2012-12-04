@@ -67,6 +67,10 @@ namespace LinearProgramming.Parser
 
                 return lst[1];
             }
+            //else if (str)
+            //{
+                
+            //}
             else
             {
                 Match match = Regex.Match(str, @"(\d+)(\w+)");

@@ -43,13 +43,29 @@
     <ApplicationIcon>news-blue.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AvalonDock, Version=2.0.1691.0, Culture=neutral, PublicKeyToken=96637cf0d3eefdfb, processorArchitecture=MSIL">
+      <HintPath>..\..\Binaries\Lib\AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonDock.Themes.Aero, Version=2.0.1691.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\Binaries\Lib\AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonDock.Themes.Expression, Version=2.0.1691.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\Binaries\Lib\AvalonDock.Themes.Expression.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonDock.Themes.VS2010, Version=2.0.1691.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\Binaries\Lib\AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.AvalonEdit, Version=4.2.0.8783, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL" />
+    <Reference Include="Irony">
+      <HintPath>D:\Workspace\Linear Programing Solver\irony_1f7bdd8e9147\Irony\bin\Debug\Irony.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Solver.Foundation, Version=3.0.2.10889, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Microsoft.Solver.Foundation.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -67,7 +83,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Solver\SolverEngine.cs" />
+    <Compile Include="DocumentOutline.xaml.cs">
+      <DependentUpon>DocumentOutline.xaml</DependentUpon>
+    </Compile>
+    <Content Include="Grammer.txt" />
+    <Compile Include="Grammar\lpGrammar.cs" />
+    <Compile Include="Model\LPConstraint.cs" />
+    <Compile Include="Model\LPGoal.cs" />
+    <Compile Include="Model\LPModel.cs" />
+    <Compile Include="Model\LPOperatorType.cs" />
+    <Compile Include="Model\LPPolynomial.cs" />
+    <Compile Include="Model\StandardLPModel.cs" />
+    <Compile Include="Parser\Parser.cs" />
+    <Compile Include="Solver\IModelSolver.cs" />
+    <Compile Include="Model\LPGoalType.cs" />
+    <Compile Include="Solver\MicrosoftSolverFoundation.cs" />
+    <Compile Include="Solver\SolvedData.cs" />
+    <Compile Include="TextEditorControl.xaml.cs">
+      <DependentUpon>TextEditorControl.xaml</DependentUpon>
+    </Compile>
+    <Page Include="DocumentOutline.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -76,15 +114,18 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BraceFoldingStrategy.cs" />
+    <Compile Include="Highlighter\BraceFoldingStrategy.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="TextEditorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Parser\CodeBlocks.cs" />
-    <Compile Include="Parser\LPModel.cs" />
     <Compile Include="Parser\ParserHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -99,6 +140,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="Samples\SampleProgram.lps">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="news-blue.ico" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

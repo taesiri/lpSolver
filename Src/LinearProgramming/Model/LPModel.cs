@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using ICSharpCode.AvalonEdit.Utils;
-using Microsoft.SolverFoundation.Services;
+using LinearProgramming.Parser;
 
-namespace LinearProgramming.Parser
+namespace LinearProgramming.Model
 {
     public class LPModel
     {
         private readonly List<string> _constraint;
         private readonly List<string> _variables;
 
-        public LPModel(string objective, GoalKind kind, IEnumerable<string> vars, IEnumerable<string> constraint)
+        public LPModel(string name,string objective, LPGoalType kind, IEnumerable<string> vars, IEnumerable<string> constraint)
         {
             _variables = new List<string>(vars);
             _constraint = new List<string>(constraint);
             GoalKind = kind;
             Objective = objective;
+            Name = name;
         }
 
         public LPModel(LPModel cData)
@@ -27,11 +27,12 @@ namespace LinearProgramming.Parser
             _constraint = new List<string>(cData.GetConstraint);
             GoalKind = cData.GoalKind;
             Objective = cData.Objective;
+            Name = cData.Name;
         }
 
-        public GoalKind GoalKind { get; set; }
+        public LPGoalType GoalKind { get; set; }
         public string Objective { get; set; }
-
+        public string Name { get; set; }
 
         public List<string> GetVariables
         {
@@ -48,30 +49,31 @@ namespace LinearProgramming.Parser
         {
             try
             {
-                var cleanedLines = ParserHelper.ClearUpTheCode(linesToParse);
+                List<string> cleanedLines = ParserHelper.ClearUpTheCode(linesToParse);
 
-                var deleteList = cleanedLines.Where(thisLine => thisLine.Contains("Begin") || thisLine.Contains("End")).ToList();
+                List<string> deleteList =
+                    cleanedLines.Where(thisLine => thisLine.Contains("Begin") || thisLine.Contains("End")).ToList();
                 //Removing all Begin and End!!!!! Parsing by Hand!
-                foreach (var item in deleteList)
+                foreach (string item in deleteList)
                 {
                     cleanedLines.Remove(item);
                 }
 
-                GoalKind gKind;
+                LPGoalType gKind;
                 if (cleanedLines[0].Substring(0, 3) == "max")
                 {
-                    gKind  = GoalKind.Maximize;
+                    gKind = LPGoalType.Maximize;
                 }
                 else if (cleanedLines[0].Substring(0, 3) == "min")
                 {
-                    gKind = GoalKind.Minimize;
+                    gKind = LPGoalType.Minimize;
                 }
                 else
                 {
                     throw new InvalidDataException("Couldn't Parse the Objective!");
                 }
-                var caseObjective = cleanedLines[0].Remove(0, 4);
-                var variables = ParserHelper.ExtractVariables(cleanedLines[0]);
+                string caseObjective = cleanedLines[0].Remove(0, 4);
+                List<string> variables = ParserHelper.ExtractVariables(cleanedLines[0]);
 
                 cleanedLines.RemoveAt(0);
 
@@ -80,7 +82,7 @@ namespace LinearProgramming.Parser
 
                 cleanedLines.RemoveAt(0);
 
-                var result = new LPModel(caseObjective, gKind, variables, cleanedLines);
+                var result = new LPModel("noName",caseObjective, gKind, variables, cleanedLines);
                 return result;
             }
             catch (Exception exp)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Folding;
 
-namespace LinearProgramming
+namespace LinearProgramming.Highlighter
 {
     public class BraceFoldingStrategy : AbstractFoldingStrategy
     {

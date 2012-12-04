@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System.ComponentModel;
 using System.Windows;
-using System.Windows.Threading;
-using System.Xml;
-using ICSharpCode.AvalonEdit.Folding;
-using ICSharpCode.AvalonEdit.Highlighting;
-using ICSharpCode.AvalonEdit.Highlighting.Xshd;
-using ICSharpCode.AvalonEdit.Indentation.CSharp;
-using LinearProgramming.Parser;
+using AvalonDock.Layout;
+using LinearProgramming.Model;
 using LinearProgramming.Solver;
 using Microsoft.Win32;
 
@@ -20,62 +14,37 @@ namespace LinearProgramming
     /// </summary>
     public partial class MainWindow
     {
-        private readonly FoldingManager _foldingManager;
-        private readonly AbstractFoldingStrategy _foldingStrategy;
+        public static MainWindow Instance;
         private string _currentFileName;
+        private int _documentCounter = 1;
+
 
         public MainWindow()
         {
             InitializeComponent();
-
-            var foldingUpdateTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(2)};
-            foldingUpdateTimer.Tick += FoldingUpdateTimerTick;
-            foldingUpdateTimer.Start();
-
-            var fileStream = new FileStream(@"Highlighter\CustomHighlighting.xshd", FileMode.Open, FileAccess.Read);
-            using (var reader = new XmlTextReader(fileStream))
-            {
-                textEditor.SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
-            }
-            fileStream.Close();
-
-            textEditor.TextArea.IndentationStrategy =
-                new CSharpIndentationStrategy(textEditor.Options);
-            _foldingStrategy = new BraceFoldingStrategy();
-
-            if (_foldingStrategy != null)
-            {
-                if (_foldingManager == null)
-                    _foldingManager = FoldingManager.Install(textEditor.TextArea);
-                _foldingStrategy.UpdateFoldings(_foldingManager, textEditor.Document);
-            }
-            else
-            {
-                if (_foldingManager != null)
-                {
-                    FoldingManager.Uninstall(_foldingManager);
-                    _foldingManager = null;
-                }
-            }
-
-            textEditor.Text = "# Welcome to LP Solver using Microsoft Solver Foundation" + Environment.NewLine;
-            textEditor.Text += "Begin" + Environment.NewLine;
-            textEditor.Text += string.Format("\t# TODO : Objectives {0}{0}", Environment.NewLine + "\t");
-            textEditor.Text += Environment.NewLine;
-            textEditor.Text += "End" + Environment.NewLine;
-            textEditor.Text += "# __EOF" + Environment.NewLine;
-
-            textEditor.ShowLineNumbers = true;
+            Instance = this;
         }
 
+        private void NewFileClick(object sender, RoutedEventArgs e)
+        {
+            CreateNewFile();
+        }
+
+        private void CreateNewFile()
+        {
+            var editorDocument = new LayoutDocument {Title = "Linear Program Problem " + _documentCounter.ToString()};
+            editorDocument.Content = new TextEditorControl {FileName = editorDocument.Title};
+            CenterDockPane.Children.Add(editorDocument);
+            _documentCounter++;
+        }
 
         private void OpenFileClick(object sender, RoutedEventArgs e)
         {
-            var dlg = new OpenFileDialog {CheckFileExists = true};
+            var dlg = new OpenFileDialog {CheckFileExists = true, Filter = "{LP Solver Files (*.lps)|*.lps"};
             if ((bool) dlg.ShowDialog())
             {
                 _currentFileName = dlg.FileName;
-                textEditor.Load(_currentFileName);
+                //textEditor.Load(_currentFileName);
             }
         }
 
@@ -83,7 +52,7 @@ namespace LinearProgramming
         {
             if (_currentFileName == null)
             {
-                var dlg = new SaveFileDialog {DefaultExt = ".cslp"};
+                var dlg = new SaveFileDialog {DefaultExt = ".lps"};
                 if ((bool) dlg.ShowDialog())
                 {
                     _currentFileName = dlg.FileName;
@@ -93,36 +62,64 @@ namespace LinearProgramming
                     return;
                 }
             }
-            textEditor.Save(_currentFileName);
+            //textEditor.Save(_currentFileName);
         }
 
-        private void FoldingUpdateTimerTick(object sender, EventArgs e)
-        {
-            if (_foldingStrategy != null)
-            {
-                _foldingStrategy.UpdateFoldings(_foldingManager, textEditor.Document);
-            }
-        }
 
         private void BtnSolveClicked(object sender, RoutedEventArgs e)
         {
-            try
+            var editor = dockManager.ActiveContent as TextEditorControl;
+            if (editor != null)
             {
-                List<string> programCode =
-                    textEditor.Document.Lines.Select(line => textEditor.Text.Substring(line.Offset, line.Length)).ToList
-                        ();
-                //Cleaning the Code
-                programCode = ParserHelper.ClearUpTheCode(programCode);
-                var solver = new SolverEngine(LPModel.TryParse(programCode));
-                string result = solver.SolveIt();
-                MessageBox.Show(result, "Result", MessageBoxButton.OK, MessageBoxImage.Information);
+                IEnumerable<string> editorText = editor.Lines;
 
-                //solver.Destry();
+                if (MessageBox.Show("?", "Solving the problem ?", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        IModelSolver solver = new MicrosoftSolverFoundation(LPModel.TryParse((List<string>) editorText));
+                        solver.TrySolve();
+                        string result = solver.GetResult();
+                        MessageBox.Show(result, "Result", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    catch (Exception exp)
+                    {
+                        MessageBox.Show("An Error Occurred in Solving or Parsing the Code!");
+                    }
+                }
             }
-            catch (Exception exp)
-            {
-                MessageBox.Show("An Error Occurred in Solving or Parsing the Code!");
-            }
+        }
+
+        private void LayoutDocumentClosing1(object sender, CancelEventArgs e)
+        {
+            // Here!
+            e.Cancel = true;
+        }
+
+        public void UpdateDocumentOutline()
+        {
+            ////CenterDockPane.Children.Add("");\
+
+            ////var ld = new LayoutDocument();
+            ////ld.Title = "Title here!";
+            ////ld.Content = new TextEditorControl();
+            ////CenterDockPane.Children.Add(ld);
+            ////CenterDockPane.Children.Add(new LayoutDocument()
+            ////{
+            ////    Title = "Classes",
+
+            ////});
+
+            ////foreach (var variable in docS)
+            ////{
+
+            ////}
+
+            ////var editor = dockManager.ActiveContent as TextEditorControl;
+            ////if (editor != null)
+            ////{
+            ////    //docOutline.DoUpdate(editor.Lines);
+            ////}
         }
     }
 }
