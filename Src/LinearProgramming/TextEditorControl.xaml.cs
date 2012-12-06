@@ -43,7 +43,7 @@ namespace LinearProgramming
 
             textEditor.TextArea.IndentationStrategy =
                 new CSharpIndentationStrategy(textEditor.Options);
-            _foldingStrategy = new BraceFoldingStrategy();
+            _foldingStrategy = new BEFoldingStrategy();
 
             if (_foldingStrategy != null)
             {

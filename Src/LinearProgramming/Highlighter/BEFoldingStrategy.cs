@@ -5,12 +5,12 @@ using ICSharpCode.AvalonEdit.Folding;
 
 namespace LinearProgramming.Highlighter
 {
-    public class BraceFoldingStrategy : AbstractFoldingStrategy
+    public class BEFoldingStrategy : AbstractFoldingStrategy
     {
         /// <summary>
-        /// Creates a new BraceFoldingStrategy.
+        /// Creates a new BEFoldingStrategy.
         /// </summary>
-        public BraceFoldingStrategy()
+        public BEFoldingStrategy()
         {
             OpeningBrace = "Begin";
             ClosingBrace = "End";

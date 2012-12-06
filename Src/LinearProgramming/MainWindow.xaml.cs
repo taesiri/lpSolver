@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+using System.Globalization;
+using System.Linq;
 using System.Windows;
 using AvalonDock.Layout;
+using Irony.Parsing;
+using LinearProgramming.Grammar;
 using LinearProgramming.Model;
-using LinearProgramming.Solver;
+using LinearProgramming.Parser;
 using Microsoft.Win32;
 
 namespace LinearProgramming
@@ -15,6 +17,7 @@ namespace LinearProgramming
     public partial class MainWindow
     {
         public static MainWindow Instance;
+        private readonly Irony.Parsing.Parser _parser;
         private string _currentFileName;
         private int _documentCounter = 1;
 
@@ -23,6 +26,8 @@ namespace LinearProgramming
         {
             InitializeComponent();
             Instance = this;
+
+            _parser = new Irony.Parsing.Parser(new LinearProgrammingGrammar());
         }
 
         private void NewFileClick(object sender, RoutedEventArgs e)
@@ -71,30 +76,52 @@ namespace LinearProgramming
             var editor = dockManager.ActiveContent as TextEditorControl;
             if (editor != null)
             {
-                IEnumerable<string> editorText = editor.Lines;
-
                 if (MessageBox.Show("?", "Solving the problem ?", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    try
-                    {
-                        IModelSolver solver = new MicrosoftSolverFoundation(LPModel.TryParse((List<string>) editorText));
-                        solver.TrySolve();
-                        string result = solver.GetResult();
-                        MessageBox.Show(result, "Result", MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
-                    catch (Exception exp)
-                    {
-                        MessageBox.Show("An Error Occurred in Solving or Parsing the Code!");
-                    }
+                    string strSource = editor.Lines.Aggregate("",
+                                                              (current, line) =>
+                                                              current +
+                                                              (line.ToString(CultureInfo.InvariantCulture) +
+                                                               Environment.NewLine));
+                    TryParse(strSource);
+
+                    //try
+                    //{
+                    //    IModelSolver solver = new MicrosoftSolverFoundation(LPModel.TryParse((List<string>) editorText));
+                    //    solver.TrySolve();
+                    //    string result = solver.GetResult();
+                    //    MessageBox.Show(result, "Result", MessageBoxButton.OK, MessageBoxImage.Information);
+                    //}
+                    //catch (Exception exp)
+                    //{
+                    //    MessageBox.Show("An Error Occurred in Solving or Parsing the Code!");
+                    //}
                 }
             }
         }
 
-        private void LayoutDocumentClosing1(object sender, CancelEventArgs e)
+
+        //Begin Parser Codes
+
+        public void TryParse(string source)
         {
-            // Here!
-            e.Cancel = true;
+            try
+            {
+                ParseTree parseTree = _parser.Parse(source);
+
+                LPModel output = Modeler.ConvertParseTreeToModel(parseTree);
+
+                output.ToString();
+            }
+            catch (Exception exp)
+            {
+                MessageBox.Show(exp.Message, "Parser Error");
+            }
         }
+
+
+        //End Parser Codes
+
 
         public void UpdateDocumentOutline()
         {

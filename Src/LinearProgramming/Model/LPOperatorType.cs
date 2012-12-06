@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace LinearProgramming.Model
+﻿namespace LinearProgramming.Model
 {
+    //Left TO Right
     public enum LPOperatorType
     {
         Equals,

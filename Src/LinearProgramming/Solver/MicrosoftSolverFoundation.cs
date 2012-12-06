@@ -27,7 +27,7 @@ namespace LinearProgramming.Solver
                 Microsoft.SolverFoundation.Services.Model model = context.CreateModel();
 
                 var vDecisions = new List<Decision>();
-                List<string> vars = _dataModel.GetVariables;
+                List<string> vars = _dataModel.Variables;
                 foreach (string variable in vars)
                 {
                     var d = new Decision(Domain.RealNonnegative, variable);
@@ -38,7 +38,7 @@ namespace LinearProgramming.Solver
                     model.AddDecision(decision);
                 }
 
-                List<string> consts = _dataModel.GetConstraint;
+                List<string> consts = _dataModel.GetConstraintStringList;
                 int counter = 0;
                 foreach (string line in consts)
                 {
@@ -54,7 +54,7 @@ namespace LinearProgramming.Solver
                 Enum.TryParse(_dataModel.GoalKind.ToString(), true, out gKind);
 
                 //Add Goal
-                model.AddGoal("Answer", gKind, _dataModel.Objective);
+                model.AddGoal("Answer", gKind, _dataModel.Objective.ToString());
 
                 Solution solution = context.Solve(new SimplexDirective());
                 Report report = solution.GetReport();

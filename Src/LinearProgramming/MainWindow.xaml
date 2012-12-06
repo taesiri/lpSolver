@@ -3,7 +3,7 @@
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:avalonDock="http://avalondock.codeplex.com" xmlns:LinearProgramming="clr-namespace:LinearProgramming"
         Title="MainWindow" Height="600" Width="904"
-        Icon="/LinearProgramming;component/news-blue.ico">
+        >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

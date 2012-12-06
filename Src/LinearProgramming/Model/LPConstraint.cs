@@ -13,6 +13,15 @@ namespace LinearProgramming.Model
             OperatorType = LPOperatorType.Equals;
         }
 
+        public LPConstraint(LPPolynomial leftPolynomial, LPPolynomial rightPolynomial, LPOperatorType operatorType)
+        {
+            RightHand = new LPPolynomial(rightPolynomial);
+            LeftHand = new LPPolynomial(leftPolynomial);
+
+            OperatorType = operatorType;
+        }
+
+
         public LPPolynomial RightHand { get; set; }
         public LPPolynomial LeftHand { get; set; }
         public LPOperatorType OperatorType { get; set; }

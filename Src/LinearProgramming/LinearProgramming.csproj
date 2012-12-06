@@ -40,7 +40,8 @@
     <StartupObject>LinearProgramming.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>news-blue.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AvalonDock, Version=2.0.1691.0, Culture=neutral, PublicKeyToken=96637cf0d3eefdfb, processorArchitecture=MSIL">
@@ -86,15 +87,19 @@
     <Compile Include="DocumentOutline.xaml.cs">
       <DependentUpon>DocumentOutline.xaml</DependentUpon>
     </Compile>
-    <Content Include="Grammer.txt" />
-    <Compile Include="Grammar\lpGrammar.cs" />
     <Compile Include="Model\LPConstraint.cs" />
     <Compile Include="Model\LPGoal.cs" />
     <Compile Include="Model\LPModel.cs" />
     <Compile Include="Model\LPOperatorType.cs" />
     <Compile Include="Model\LPPolynomial.cs" />
     <Compile Include="Model\StandardLPModel.cs" />
-    <Compile Include="Parser\Parser.cs" />
+    <Compile Include="Parser\Grammar\lpGrammar.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Parser\Modeler.cs" />
+    <Compile Include="Parser\ParserHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Solver\IModelSolver.cs" />
     <Compile Include="Model\LPGoalType.cs" />
     <Compile Include="Solver\MicrosoftSolverFoundation.cs" />
@@ -114,7 +119,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Highlighter\BraceFoldingStrategy.cs" />
+    <Compile Include="Highlighter\BEFoldingStrategy.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -125,8 +130,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Parser\CodeBlocks.cs" />
-    <Compile Include="Parser\ParserHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -143,7 +146,6 @@
     <Content Include="Samples\SampleProgram.lps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="news-blue.ico" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

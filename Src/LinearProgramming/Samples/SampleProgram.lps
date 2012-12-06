@@ -1,19 +1,7 @@
-﻿# Welcome to LP Solver
-# Program goes here :
-Begin
-	# TODO : Objectives 
-	max: 500 * x + 6 * y + 10 * z + 8 * k
-	subject to:
-	Begin
-		0 <= x
-		0 <= k
-		0 <= y
-		0 <= z
-		400 *x + 3*y + 2*z + 2*k <= 50
-		200 *x + 2*y + 2*z + 4*k <= 20
-		150 *x + 4*z + 1*k <= 30
-		500 *x + 4*z + 5*k <= 80
-	End
-	
-End
-# __EOF
+﻿# Comments here! :)
+lpmodel testModel{
+min + 2*x + 3*x + 145 + 25*y + 89*z
+subject to:
+3*x + 2*y < 100; # Inline Comment
+100 > -2 + 2*x;
+};
