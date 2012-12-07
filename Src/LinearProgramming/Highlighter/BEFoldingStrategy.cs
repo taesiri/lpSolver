@@ -12,19 +12,19 @@ namespace LinearProgramming.Highlighter
         /// </summary>
         public BEFoldingStrategy()
         {
-            OpeningBrace = "Begin";
-            ClosingBrace = "End";
+            OpeningBrace = '{';
+            ClosingBrace = '}';
         }
 
         /// <summary>
         /// Gets/Sets the opening brace. The default value is '{'.
         /// </summary>
-        public string OpeningBrace { get; set; }
+        public char OpeningBrace { get; set; }
 
         /// <summary>
         /// Gets/Sets the closing brace. The default value is '}'.
         /// </summary>
-        public string ClosingBrace { get; set; }
+        public char ClosingBrace { get; set; }
 
         /// <summary>
         /// Create <see cref="NewFolding"/>s for the specified document.
@@ -44,41 +44,28 @@ namespace LinearProgramming.Highlighter
 
             var startOffsets = new Stack<int>();
             int lastNewLineOffset = 0;
-            string openingBrace = OpeningBrace;
-            string closingBrace = ClosingBrace;
-            for (int i = 0; i < document.TextLength - 3; i++)
+            char openingBrace = OpeningBrace;
+            char closingBrace = ClosingBrace;
+            for (int i = 0; i < document.TextLength - 1; i++)
             {
                 try
                 {
                     char c = document.GetCharAt(i);
-                    string cs = "";
-                    if (i < document.TextLength - 5)
-                    {
-                        cs = document.Text.Substring(i, 5);
-                    }
-                    else if (i < document.TextLength - 3)
-                    {
-                        cs = document.Text.Substring(i, 3);
-                    }
 
-                    if (cs == openingBrace)
+                    if (c == openingBrace)
                     {
                         startOffsets.Push(i);
                     }
-                    else
+                    else if( c== closingBrace)
                     {
-                        if (i < document.TextLength - 3)
-                        {
-                            cs = document.Text.Substring(i, 3);
-                        }
-                        if (cs == closingBrace && startOffsets.Count > 0)
+                        if (startOffsets.Count > 0)
                         {
                             int startOffset = startOffsets.Pop();
                             // don't fold if opening and closing brace are on the same line
                             if (startOffset < lastNewLineOffset)
                             {
                                 newFoldings.Add(new NewFolding(startOffset, i + 1));
-                            }
+                            }  
                         }
                     }
 

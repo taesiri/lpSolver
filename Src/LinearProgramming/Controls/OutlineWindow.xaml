@@ -1,0 +1,9 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:LinearProgramming.Controls"
+        x:Class="LinearProgramming.Controls.OutlineWindow" Title="OutlineWindow" Height="371" Width="229" ResizeMode="CanResizeWithGrip" WindowStyle="ToolWindow">
+    <Grid>
+
+        <local:LPOutline x:Name="lpOutlineControl"/>
+
+    </Grid>
+</Window>

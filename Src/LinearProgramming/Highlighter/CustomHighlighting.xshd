@@ -18,9 +18,9 @@
 		</Span>
 
 		<Keywords fontWeight="bold" foreground="MediumBlue">
-			<Word>Begin</Word>
+			<Word>{</Word>
       <Word>integer</Word>
-			<Word>End</Word>
+			<Word>}</Word>
 		</Keywords>
 		<Keywords fontWeight="bold" foreground="Orange">
 			<Word>&lt;=</Word>
@@ -30,10 +30,10 @@
 			<Word>=</Word>
 		</Keywords>
 		<Keywords fontWeight="bold" foreground="DodgerBlue">
-      <Word>variables:</Word>
-			<Word>max:</Word>
-			<Word>min:</Word>
-			<Word>subject to:</Word>
+      <Word>lpmodel</Word>
+			<Word>max</Word>
+			<Word>min</Word>
+			<Word>subject to</Word>
 			<!-- ... -->
 		</Keywords>
 		

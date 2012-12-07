@@ -67,7 +67,11 @@ namespace LinearProgramming.Model
         public override string ToString()
         {
             // TODO: ConvertToReadableString!
-
+            if (_poly.Count == 0)
+            {
+                return Constant.ToString();
+            }
+            //Else :
             string tstr = _poly.Aggregate("",
                                           (current, tuple) =>
                                           current +

@@ -43,7 +43,8 @@ namespace LinearProgramming.Parser
             {
                 throw new Exception("The Root element is not Correct");
             }
-            return new LPModel();
+
+            return new LPModel(modelName, lpGoal, lpConstraints);
         }
 
         private static string ParseModelName(ParseTreeNode lpAppNameNode)
@@ -157,38 +158,36 @@ namespace LinearProgramming.Parser
 
         private static LPConstraint ParseConstraint(ParseTreeNode node)
         {
-           if(node.ChildNodes.Count != 4)
-               throw new Exception("Invalid Model - Modeler Error At ParseConstraint");
+            if (node.ChildNodes.Count != 4)
+                throw new Exception("Invalid Model - Modeler Error At ParseConstraint");
 
-            var lPoly = ParsePolynomial(node.ChildNodes[0]);
-            var optr = ParseOperator(node.ChildNodes[1]);
-            var rPoly = ParsePolynomial(node.ChildNodes[2]);
+            LPPolynomial lPoly = ParsePolynomial(node.ChildNodes[0]);
+            LPOperatorType optr = ParseOperator(node.ChildNodes[1]);
+            LPPolynomial rPoly = ParsePolynomial(node.ChildNodes[2]);
 
             return new LPConstraint(lPoly, rPoly, optr);
         }
 
         private static LPOperatorType ParseOperator(ParseTreeNode node)
         {
-            var str = node.ChildNodes[0].ToString().Replace("(Key symbol)", "").Replace(" ", "");
+            string str = node.ChildNodes[0].ToString().Replace("(Key symbol)", "").Replace(" ", "");
 
             switch (str)
             {
                 case "==":
                     return LPOperatorType.Equals;
-                case ">":
-                    return LPOperatorType.LessThan;
-                case ">=":
-                    return LPOperatorType.LessOrEqualsTo;
                 case "<":
-                    return LPOperatorType.MoreThan;
+                    return LPOperatorType.LessThan;
                 case "=<":
+                    return LPOperatorType.LessOrEqualsTo;
+                case ">":
+                    return LPOperatorType.MoreThan;
+                case ">=":
                     return LPOperatorType.MoreOrEqualsTo;
 
                 default:
-                    throw new Exception("Invalid Model - Modeler Error At ParseOperator"); 
+                    throw new Exception("Invalid Model - Modeler Error At ParseOperator");
             }
-
-           
         }
     }
 }

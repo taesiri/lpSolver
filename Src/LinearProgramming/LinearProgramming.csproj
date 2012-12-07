@@ -84,6 +84,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\ErrLog.cs" />
+    <Compile Include="Controls\LPOutline.xaml.cs">
+      <DependentUpon>LPOutline.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OutlineWindow.xaml.cs">
+      <DependentUpon>OutlineWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ParserOutput.xaml.cs">
+      <DependentUpon>ParserOutput.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ParserOutputWindow.xaml.cs">
+      <DependentUpon>ParserOutputWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DocumentOutline.xaml.cs">
       <DependentUpon>DocumentOutline.xaml</DependentUpon>
     </Compile>
@@ -104,9 +117,25 @@
     <Compile Include="Model\LPGoalType.cs" />
     <Compile Include="Solver\MicrosoftSolverFoundation.cs" />
     <Compile Include="Solver\SolvedData.cs" />
-    <Compile Include="TextEditorControl.xaml.cs">
+    <Compile Include="Controls\TextEditorControl.xaml.cs">
       <DependentUpon>TextEditorControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\LPOutline.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\OutlineWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ParserOutput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ParserOutputWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DocumentOutline.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -124,7 +153,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="TextEditorControl.xaml">
+    <Page Include="Controls\TextEditorControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

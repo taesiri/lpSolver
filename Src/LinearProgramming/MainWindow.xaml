@@ -1,42 +1,43 @@
 ﻿<Window x:Class="LinearProgramming.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
-        xmlns:avalonDock="http://avalondock.codeplex.com" xmlns:LinearProgramming="clr-namespace:LinearProgramming"
-        Title="MainWindow" Height="600" Width="904"
-        >
+        xmlns:avalonDock="http://avalondock.codeplex.com"
+        Title="MainWindow" Height="600" Width="904">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="18.667"/>
-            <RowDefinition Height="8.333"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="18.667" />
+            <RowDefinition Height="8.333" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Menu  Grid.Row="0" Height="23" Name="mainMenu">
-            <MenuItem Header="File" />
-            <MenuItem Header="Edit" />
-            <MenuItem Header="Tools">
+        <Menu Grid.Row="0" Height="23" Name="mainMenu">
+            <MenuItem Header="FILE">
+                <MenuItem Header="New" Click="NewFileClick"/>
+                <Separator />
+                <MenuItem Header="Exit" Click="MnuItemExitClick" />
+            </MenuItem>
+            <MenuItem Header="EDIT" />
+            <MenuItem Header="TOOLS">
                 <MenuItem Header="Solve" />
                 <Separator />
                 <MenuItem Header="Settings" />
             </MenuItem>
-            <MenuItem Header="About" />
+            <MenuItem Header="ABOUT" />
         </Menu>
 
-        <ToolBar Grid.Row="1" Grid.RowSpan="2" >
+        <ToolBar Grid.Row="1" Grid.RowSpan="2">
             <ToolBar.Resources>
                 <Style TargetType="{x:Type Image}">
                     <Style.Triggers>
                         <DataTrigger
-                                Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ButtonBase}, AncestorLevel=1}, Path=IsEnabled}"
-                                Value="False">
+                            Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ButtonBase}, AncestorLevel=1}, Path=IsEnabled}"
+                            Value="False">
                             <Setter Property="Opacity" Value="0.30" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </ToolBar.Resources>
             <Button Click="NewFileClick">
-                New
-            </Button>
+                New</Button>
             <Button Click="OpenFileClick">
                 <Image Source="Images/Open.png" Height="16" />
             </Button>
@@ -72,33 +73,30 @@
             <CheckBox IsChecked="{Binding ElementName=textEditor,Path=Options.ShowEndOfLine}">
                 <TextBlock Width="16" TextAlignment="Center">¶</TextBlock>
             </CheckBox>
-            <Separator/>
+            <Separator />
             <Button Click="BtnSolveClicked">Solve</Button>
         </ToolBar>
-        
-       <avalonDock:DockingManager Grid.Row="3" x:Name="dockManager" AllowMixedOrientation="True" >
+
+        <avalonDock:DockingManager Grid.Row="3" x:Name="dockManager" AllowMixedOrientation="True">
             <avalonDock:DockingManager.Theme>
-                <avalonDock:ExpressionLightTheme/>
+                <avalonDock:ExpressionLightTheme />
             </avalonDock:DockingManager.Theme>
             <avalonDock:LayoutRoot>
                 <avalonDock:LayoutPanel Orientation="Horizontal">
                     <avalonDock:LayoutDocumentPaneGroup>
                         <avalonDock:LayoutDocumentPane x:Name="CenterDockPane">
-
                         </avalonDock:LayoutDocumentPane>
                     </avalonDock:LayoutDocumentPaneGroup>
                 </avalonDock:LayoutPanel>
                 <avalonDock:LayoutRoot.LeftSide>
                     <avalonDock:LayoutAnchorSide>
                         <avalonDock:LayoutAnchorGroup x:Name="LeftDocPane">
-                          
                         </avalonDock:LayoutAnchorGroup>
                     </avalonDock:LayoutAnchorSide>
                 </avalonDock:LayoutRoot.LeftSide>
                 <avalonDock:LayoutRoot.RightSide>
                     <avalonDock:LayoutAnchorSide>
                         <avalonDock:LayoutAnchorGroup x:Name="RightDocPane">
-
                         </avalonDock:LayoutAnchorGroup>
                     </avalonDock:LayoutAnchorSide>
                 </avalonDock:LayoutRoot.RightSide>
@@ -106,11 +104,10 @@
                 <avalonDock:LayoutRoot.BottomSide>
                     <avalonDock:LayoutAnchorSide>
                         <avalonDock:LayoutAnchorGroup x:Name="BottomDocPane">
-
                         </avalonDock:LayoutAnchorGroup>
                     </avalonDock:LayoutAnchorSide>
                 </avalonDock:LayoutRoot.BottomSide>
-                
+
             </avalonDock:LayoutRoot>
         </avalonDock:DockingManager>
     </Grid>

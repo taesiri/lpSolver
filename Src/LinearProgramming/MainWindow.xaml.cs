@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
 using AvalonDock.Layout;
+using Irony;
 using Irony.Parsing;
+using LinearProgramming.Controls;
 using LinearProgramming.Grammar;
 using LinearProgramming.Model;
 using LinearProgramming.Parser;
@@ -17,14 +20,21 @@ namespace LinearProgramming
     public partial class MainWindow
     {
         public static MainWindow Instance;
+        private readonly OutlineWindow _outlineWindow;
+        private readonly ParserOutputWindow _outputWindow;
         private readonly Irony.Parsing.Parser _parser;
         private string _currentFileName;
         private int _documentCounter = 1;
-
+        private ParseTree _parseTree;
 
         public MainWindow()
         {
             InitializeComponent();
+            _outputWindow = new ParserOutputWindow();
+            _outlineWindow = new OutlineWindow();
+            _outputWindow.Show();
+            _outlineWindow.Show();
+
             Instance = this;
 
             _parser = new Irony.Parsing.Parser(new LinearProgrammingGrammar());
@@ -105,20 +115,52 @@ namespace LinearProgramming
 
         public void TryParse(string source)
         {
+            //ClearParserOutput();
+            if (_parser == null || !_parser.Language.CanParse()) return;
+            _parseTree = null;
+            GC.Collect(); //to avoid disruption of perf times with occasional collections
+            //_parser.Context.TracingEnabled = chkParserTrace.Checked;
+
             try
             {
-                ParseTree parseTree = _parser.Parse(source);
-
-                LPModel output = Modeler.ConvertParseTreeToModel(parseTree);
-
-                output.ToString();
+                _parseTree = _parser.Parse(source);
+                if (_parseTree.HasErrors() == false)
+                {
+                    _outlineWindow.ClearWindow();
+                    LPModel output = Modeler.ConvertParseTreeToModel(_parseTree);
+                    _outlineWindow.SetLpName(output.Name);
+                    List<LPConstraint> constraints = output.GetConstraint;
+                    foreach (LPConstraint lpConstraint in constraints)
+                    {
+                        _outlineWindow.AddConstraint(lpConstraint);
+                    }
+                    List<string> variables = output.Variables;
+                    foreach (string variable in variables)
+                    {
+                        _outlineWindow.AddVariable(variable);
+                    }
+                }
             }
             catch (Exception exp)
             {
+                //gridCompileErrors.Rows.Add(null, ex.Message, null);
+                //tabBottom.SelectedTab = pageParserOutput;
                 MessageBox.Show(exp.Message, "Parser Error");
             }
+            finally
+            {
+                _parseTree = _parser.Context.CurrentParseTree;
+                ShowCompilerErrors();
+                //if (chkParserTrace.Checked)
+                //{
+                //    ShowParseTrace();
+                //}
+                //ShowCompileStats();
+                //ShowParseTree();
+                //ShowAstTree();
+                MessageBox.Show("Parsing Completed!");
+            }
         }
-
 
         //End Parser Codes
 
@@ -147,6 +189,23 @@ namespace LinearProgramming
             ////{
             ////    //docOutline.DoUpdate(editor.Lines);
             ////}
+        }
+
+        private void ShowCompilerErrors()
+        {
+            _outputWindow.ClearLogs();
+            if (_parseTree == null || _parseTree.ParserMessages.Count == 0) return;
+            foreach (LogMessage err in _parseTree.ParserMessages)
+            {
+                _outputWindow.AddErrorLog(new ErrLog(err.Message, String.Format("Line {0} at {1}", err.Location.Line,
+                                                                                err.Location.Position),
+                                                     err.ParserState.ToString()));
+            }
+        }
+
+        private void MnuItemExitClick(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown(0);
         }
     }
 }

@@ -12,7 +12,7 @@ using ICSharpCode.AvalonEdit.Indentation.CSharp;
 using LinearProgramming.Highlighter;
 using LinearProgramming.Parser;
 
-namespace LinearProgramming
+namespace LinearProgramming.Controls
 {
     /// <summary>
     /// Interaction logic for TextEditorControl.xaml
@@ -61,10 +61,11 @@ namespace LinearProgramming
             }
 
             textEditor.Text = "# Welcome to Linear Programming Solver!" + Environment.NewLine;
-            textEditor.Text += "Begin LP Problem Name" + Environment.NewLine;
+            textEditor.Text += "lpmodel ModelName \n{" + Environment.NewLine;
             textEditor.Text += string.Format("\t# TODO : Objectives {0}{0}", Environment.NewLine + "\t");
+            textEditor.Text += Environment.NewLine + "\t";
             textEditor.Text += Environment.NewLine;
-            textEditor.Text += "End" + Environment.NewLine;
+            textEditor.Text += "};" + Environment.NewLine;
             textEditor.Text += "# __EOF" + Environment.NewLine;
 
             textEditor.ShowLineNumbers = true;

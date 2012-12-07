@@ -15,7 +15,6 @@ namespace LinearProgramming.Model
             GoalKind = otherModel.GoalKind;
             Objective = otherModel.Objective;
             Name = otherModel.Name;
-
         }
 
         public LPModel()
@@ -25,6 +24,15 @@ namespace LinearProgramming.Model
             GoalKind = null;
             Objective = new LPPolynomial();
             Name = "NewModel";
+        }
+
+        public LPModel(string name, LPGoal goal, IEnumerable<LPConstraint> constraints)
+        {
+            Name = name;
+            Objective = goal.Goal;
+            GoalKind = goal.GoalType;
+
+            _constraint = new List<LPConstraint>(constraints);
         }
 
         public LPPolynomial Objective { get; set; }

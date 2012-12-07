@@ -31,5 +31,10 @@ namespace LinearProgramming.Model
         {
             get { return RightHand.GetVariables.Union(LeftHand.GetVariables).ToList(); }
         }
+
+        public override string ToString()
+        {
+            return LeftHand + "  " + OperatorType.ToString() + "  " + RightHand;
+        }
     }
 }
