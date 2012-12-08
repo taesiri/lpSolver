@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Windows;
+using AvalonDock;
 using AvalonDock.Layout;
+using AvalonDock.Layout.Serialization;
 using Irony;
 using Irony.Parsing;
 using LinearProgramming.Controls;
@@ -20,8 +24,7 @@ namespace LinearProgramming
     public partial class MainWindow
     {
         public static MainWindow Instance;
-        private readonly OutlineWindow _outlineWindow;
-        private readonly ParserOutputWindow _outputWindow;
+
         private readonly Irony.Parsing.Parser _parser;
         private string _currentFileName;
         private int _documentCounter = 1;
@@ -30,10 +33,6 @@ namespace LinearProgramming
         public MainWindow()
         {
             InitializeComponent();
-            _outputWindow = new ParserOutputWindow();
-            _outlineWindow = new OutlineWindow();
-            _outputWindow.Show();
-            _outlineWindow.Show();
 
             Instance = this;
 
@@ -52,6 +51,7 @@ namespace LinearProgramming
             CenterDockPane.Children.Add(editorDocument);
             _documentCounter++;
         }
+
 
         private void OpenFileClick(object sender, RoutedEventArgs e)
         {
@@ -86,27 +86,25 @@ namespace LinearProgramming
             var editor = dockManager.ActiveContent as TextEditorControl;
             if (editor != null)
             {
-                if (MessageBox.Show("?", "Solving the problem ?", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                {
-                    string strSource = editor.Lines.Aggregate("",
-                                                              (current, line) =>
-                                                              current +
-                                                              (line.ToString(CultureInfo.InvariantCulture) +
-                                                               Environment.NewLine));
-                    TryParse(strSource);
+                string strSource = editor.Lines.Aggregate("",
+                                                          (current, line) =>
+                                                          current +
+                                                          (line.ToString(CultureInfo.InvariantCulture) +
+                                                           Environment.NewLine));
+                TryParse(strSource);
 
-                    //try
-                    //{
-                    //    IModelSolver solver = new MicrosoftSolverFoundation(LPModel.TryParse((List<string>) editorText));
-                    //    solver.TrySolve();
-                    //    string result = solver.GetResult();
-                    //    MessageBox.Show(result, "Result", MessageBoxButton.OK, MessageBoxImage.Information);
-                    //}
-                    //catch (Exception exp)
-                    //{
-                    //    MessageBox.Show("An Error Occurred in Solving or Parsing the Code!");
-                    //}
-                }
+                //try
+                //{
+                //    IModelSolver solver = new MicrosoftSolverFoundation(LPModel.TryParse((List<string>) editorText));
+                //    solver.TrySolve();
+                //    string result = solver.GetResult();
+                //    MessageBox.Show(result, "Result", MessageBoxButton.OK, MessageBoxImage.Information);
+                //}
+                //catch (Exception exp)
+                //{
+                //    MessageBox.Show("An Error Occurred in Solving or Parsing the Code!");
+                //}
+
             }
         }
 
@@ -115,6 +113,7 @@ namespace LinearProgramming
 
         public void TryParse(string source)
         {
+
             //ClearParserOutput();
             if (_parser == null || !_parser.Language.CanParse()) return;
             _parseTree = null;
@@ -126,18 +125,18 @@ namespace LinearProgramming
                 _parseTree = _parser.Parse(source);
                 if (_parseTree.HasErrors() == false)
                 {
-                    _outlineWindow.ClearWindow();
+                    lpOutlineW.ClearWindow();
                     LPModel output = Modeler.ConvertParseTreeToModel(_parseTree);
-                    _outlineWindow.SetLpName(output.Name);
+                    lpOutlineW.SetLPName(output.Name);
                     List<LPConstraint> constraints = output.GetConstraint;
                     foreach (LPConstraint lpConstraint in constraints)
                     {
-                        _outlineWindow.AddConstraint(lpConstraint);
+                        lpOutlineW.AddConstraint(lpConstraint);
                     }
                     List<string> variables = output.Variables;
                     foreach (string variable in variables)
                     {
-                        _outlineWindow.AddVariable(variable);
+                        lpOutlineW.AddVariable(variable);
                     }
                 }
             }
@@ -193,19 +192,31 @@ namespace LinearProgramming
 
         private void ShowCompilerErrors()
         {
-            _outputWindow.ClearLogs();
+            parserErrorW.ClearLogs();
             if (_parseTree == null || _parseTree.ParserMessages.Count == 0) return;
             foreach (LogMessage err in _parseTree.ParserMessages)
             {
-                _outputWindow.AddErrorLog(new ErrLog(err.Message, String.Format("Line {0} at {1}", err.Location.Line,
-                                                                                err.Location.Position),
-                                                     err.ParserState.ToString()));
+                parserErrorW.LogError(new ErrLog(err.Message, String.Format("Line {0} at {1}", err.Location.Line,
+                                                                            err.Location.Position),
+                                                 err.ParserState.ToString()));
             }
         }
 
         private void MnuItemExitClick(object sender, RoutedEventArgs e)
         {
+          
             Application.Current.Shutdown(0);
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            LPOutlineAncher.Show();
+        }
+
+
+
+
+       
+
     }
 }

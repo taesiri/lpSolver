@@ -41,6 +41,11 @@ namespace LinearProgramming.Controls
         {
             Constraints.Add(new ConstraintList(constraint));
         }
+        public void ClearWindow()
+        {
+            Constraints.Clear();
+            Variables.Clear();
+        }
     }
 
     public class ConstraintList

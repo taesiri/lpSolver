@@ -88,14 +88,8 @@
     <Compile Include="Controls\LPOutline.xaml.cs">
       <DependentUpon>LPOutline.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\OutlineWindow.xaml.cs">
-      <DependentUpon>OutlineWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\ParserOutput.xaml.cs">
       <DependentUpon>ParserOutput.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ParserOutputWindow.xaml.cs">
-      <DependentUpon>ParserOutputWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DocumentOutline.xaml.cs">
       <DependentUpon>DocumentOutline.xaml</DependentUpon>
@@ -124,15 +118,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\OutlineWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\ParserOutput.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\ParserOutputWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

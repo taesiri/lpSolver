@@ -1,7 +1,6 @@
 ﻿<Window x:Class="LinearProgramming.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:avalonDock="http://avalondock.codeplex.com"
-        Title="MainWindow" Height="600" Width="904">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:avalonDock="http://avalondock.codeplex.com"
+        xmlns:Controls="clr-namespace:LinearProgramming.Controls" Title="MainWindow" Height="600" Width="904">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -11,7 +10,7 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" Height="23" Name="mainMenu">
             <MenuItem Header="FILE">
-                <MenuItem Header="New" Click="NewFileClick"/>
+                <MenuItem Header="New" Click="NewFileClick" />
                 <Separator />
                 <MenuItem Header="Exit" Click="MnuItemExitClick" />
             </MenuItem>
@@ -75,6 +74,8 @@
             </CheckBox>
             <Separator />
             <Button Click="BtnSolveClicked">Solve</Button>
+            <Separator />
+            <Button Click="Button_Click_1">Something</Button>
         </ToolBar>
 
         <avalonDock:DockingManager Grid.Row="3" x:Name="dockManager" AllowMixedOrientation="True">
@@ -87,23 +88,21 @@
                         <avalonDock:LayoutDocumentPane x:Name="CenterDockPane">
                         </avalonDock:LayoutDocumentPane>
                     </avalonDock:LayoutDocumentPaneGroup>
+                    <avalonDock:LayoutAnchorablePane DockWidth="190">
+                        <avalonDock:LayoutAnchorable x:Name="LPOutlineAncher" Title="Outline" AutoHideMinWidth="125"
+                                                     AutoHideWidth="180">
+                            <Controls:LPOutline x:Name="lpOutlineW" />
+                        </avalonDock:LayoutAnchorable>
+                    </avalonDock:LayoutAnchorablePane>
                 </avalonDock:LayoutPanel>
-                <avalonDock:LayoutRoot.LeftSide>
-                    <avalonDock:LayoutAnchorSide>
-                        <avalonDock:LayoutAnchorGroup x:Name="LeftDocPane">
-                        </avalonDock:LayoutAnchorGroup>
-                    </avalonDock:LayoutAnchorSide>
-                </avalonDock:LayoutRoot.LeftSide>
-                <avalonDock:LayoutRoot.RightSide>
-                    <avalonDock:LayoutAnchorSide>
-                        <avalonDock:LayoutAnchorGroup x:Name="RightDocPane">
-                        </avalonDock:LayoutAnchorGroup>
-                    </avalonDock:LayoutAnchorSide>
-                </avalonDock:LayoutRoot.RightSide>
 
                 <avalonDock:LayoutRoot.BottomSide>
                     <avalonDock:LayoutAnchorSide>
                         <avalonDock:LayoutAnchorGroup x:Name="BottomDocPane">
+                            <avalonDock:LayoutAnchorable x:Name="ParserErrorAncher" Title="Error" AutoHideHeight="100"
+                                                         AutoHideMinHeight="80">
+                                <Controls:ParserOutput x:Name="parserErrorW" />
+                            </avalonDock:LayoutAnchorable>
                         </avalonDock:LayoutAnchorGroup>
                     </avalonDock:LayoutAnchorSide>
                 </avalonDock:LayoutRoot.BottomSide>
