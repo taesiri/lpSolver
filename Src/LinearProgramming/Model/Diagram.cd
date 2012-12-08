@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="LinearProgramming.Model.LPModel">
+    <Position X="0.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AQEAAAAAAAAAAAAAAAAAgAQAAACAAAAAAAQAAAAAAgA=</HashCode>
+      <FileName>Model\LPModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LinearProgramming.Model.LPConstraint">
+    <Position X="0.5" Y="3.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAQABACAAAAAAAEAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\LPConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LinearProgramming.Model.LPGoal">
+    <Position X="3.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>IQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\LPGoal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LinearProgramming.Model.LPPolynomial">
+    <Position X="3.5" Y="2.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAEAAAAAAQAAAAAAAgAEABAAAFAQAA=</HashCode>
+      <FileName>Model\LPPolynomial.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="LinearProgramming.Model.LPGoalType">
+    <Position X="6.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAgA=</HashCode>
+      <FileName>Model\LPGoalType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="LinearProgramming.Model.LPOperatorType">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAEAAAAQAAAAAAAAAAACAAACA=</HashCode>
+      <FileName>Model\LPOperatorType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

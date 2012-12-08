@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="&lt;" Bounds="518.112039874102,-246.255000343563,50.01608428176,25.9600000063264" Label="&lt;" />
+    <Node Id="=&lt;" Bounds="598.088999874102,-190.311116817237,50.0109228800002,25.96" Label="=&lt;" />
+    <Node Id="&gt;" Bounds="598.094161275862,-246.255000343563,50.0109228800002,25.96" Label="==" />
+    <Node Id="&gt;1" Bounds="678.071121275862,-246.255000343563,50.01092288,25.96" Label="&gt;" />
+    <Node Id="&gt;=" Bounds="518.112039874102,-190.311116817237,50.01092288,25.96" Label="&gt;=" />
+    <Node Id="Constraint" Category="Category10" Bounds="-56.8239283556401,-254.434352194343,177.34745938619,198.84042878418" Group="Expanded" Label="Constraint" UseManualLocation="True" />
+    <Node Id="GoalType" Bounds="210.523528563845,-232.562255294148,90.0727887261052,142.880313523749" Group="Expanded" Label="GoalType" />
+    <Node Id="LPConstraint" Category="Category9" Bounds="-96.8239283556401,-336.354552194343,257.34745938619,320.76082878418" Group="Expanded" Label="LPConstraint" UseManualLocation="True" />
+    <Node Id="LPGoal" Category="Category9" Bounds="190.523528563845,-273.522355294148,238.576044179715,203.840513523749" Group="Expanded" Label="LPGoal" />
+    <Node Id="LPModel" Category="Category1" Bounds="-116.82392835564,-377.314652194344,565.923501099201,381.72102878418" Group="Expanded" UseManualLocation="True">
+      <Category Ref="Category2" />
+    </Node>
+    <Node Id="ListOfConstraint" Category="Comment" Bounds="-76.8239283556401,-295.394452194343,217.34745938619,259.80062878418" Group="Expanded" Label="List of Constraint" UseManualLocation="True">
+      <Category Ref="Category10" />
+    </Node>
+    <Node Id="Max" Bounds="230.523536048228,-135.642050538515,50.0032853332519,25.959999998291" Label="Max" />
+    <Node Id="Min" Bounds="230.523551698344,-191.602164063973,50.0727730759897,25.9599999984256" Label="Min" />
+    <Node Id="Operator" Bounds="-0.547804275351112,-157.514166626606,67.9266666666667,25.96" Label="Operator" UseManualLocation="True" />
+    <Node Id="Operator1" Bounds="498.095882887494,-287.256008373606,249.95848428176,142.846327046327" Group="Expanded" Label="Operator" UseManualLocation="True" />
+    <Node Id="Polynomial" Category="Category3" Bounds="330.596320154419,-232.548315790607,78.5032554536105,25.9599999848953" Label="Polynomial" />
+    <Node Id="Polynomial1" Category="Category3" Bounds="-36.8239254911714,-101.554037842426,136.586666666667,25.96" Label="Righthand Polynomial" UseManualLocation="True" />
+    <Node Id="Polynomial2" Category="Category3" Bounds="-29.5364661049816,-213.474249639312,130.06,25.96" Label="LeftHand Polynomial" UseManualLocation="True" />
+  </Nodes>
+  <Links>
+    <Link Source="Constraint" Target="Operator" Category="Contains" Bounds="102.672218535779,28.2466781097413,7.56471735985912,96.9875514689125" />
+    <Link Source="Constraint" Target="Polynomial1" Category="Contains" Bounds="63.5708276740803,129.607402855172,1.89037270524423,60.9980364359847" />
+    <Link Source="Constraint" Target="Polynomial2" Category="Contains" Bounds="19.8065437304545,-21.8384668680497,41.7948265901659,62.5182601301372" />
+    <Link Source="GoalType" Target="Max" Category="Contains" Bounds="284.926606273581,19.6501363142152,15.6331479883042,41.576144781174" />
+    <Link Source="GoalType" Target="Min" Category="Contains" Bounds="309.402204289635,12.7461643028259,5.50259987584025,152.92621690277" />
+    <Link Source="LPConstraint" Target="ListOfConstraint" Category="Contains" />
+    <Link Source="LPGoal" Target="GoalType" Category="Contains" Bounds="251.536234051317,-60.2152367724868,7.83410893827602,21.5420398740633" />
+    <Link Source="LPGoal" Target="Polynomial" Category="Contains" Bounds="137.342727779658,-124.633396890265,23.299846554264,23.5960682681862" />
+    <Link Source="LPModel" Target="LPConstraint" Category="Contains" Bounds="80.9665672946111,-174.189707996315,16.0510192668392,22.6490092293631" />
+    <Link Source="LPModel" Target="LPGoal" Category="Contains" Bounds="211.485380180738,-253.66176940918,90.7328879818954,122.076860735794" />
+    <Link Source="ListOfConstraint" Target="Constraint" Category="Contains" />
+    <Link Source="Operator1" Target="&lt;" Category="Contains" />
+    <Link Source="Operator1" Target="=&lt;" Category="Contains" />
+    <Link Source="Operator1" Target="&gt;" Category="Contains" />
+    <Link Source="Operator1" Target="&gt;1" Category="Contains" />
+    <Link Source="Operator1" Target="&gt;=" Category="Contains" />
+  </Links>
+  <Categories>
+    <Category Id="Category1" Label="Category 1" Background="#FFE51400" IsTag="True" />
+    <Category Id="Category10" Label="Category 10" Background="#FF672878" IsTag="True" />
+    <Category Id="Category2" Label="Category 2" Background="#FF339933" IsTag="True" />
+    <Category Id="Category3" Label="Category 3" Background="#FF3EBCED" IsTag="True" />
+    <Category Id="Category9" Label="Category 9" Background="#FF00539C" IsTag="True" />
+    <Category Id="Comment" Label="Comment" Description="Represents a user defined comment on the diagram" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="Comments" />
+    <Category Id="Contains" Label="Contains" Description="Whether the source of the link contains the target object" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Contained By" IsContainment="True" OutgoingActionLabel="Contains" />
+  </Categories>
+  <Properties>
+    <Property Id="Background" Label="Background" Description="The background color" DataType="System.Windows.Media.Brush" />
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="Group" Label="Group" Description="Display the node as a group" DataType="Microsoft.VisualStudio.GraphModel.GraphGroupStyle" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
+    <Property Id="IsTag" DataType="System.Boolean" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+  </Properties>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Category 10" ValueLabel="Has category">
+      <Condition Expression="HasCategory('Category10')" />
+      <Setter Property="Background" Value="#FF672878" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Category 4" ValueLabel="Has category">
+      <Condition Expression="HasCategory('Category4')" />
+      <Setter Property="Background" Value="#FF1BA1E2" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Category 3" ValueLabel="Has category">
+      <Condition Expression="HasCategory('Category3')" />
+      <Setter Property="Background" Value="#FF3EBCED" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Category 9" ValueLabel="Has category">
+      <Condition Expression="HasCategory('Category9')" />
+      <Setter Property="Background" Value="#FF00539C" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Category 2" ValueLabel="Has category">
+      <Condition Expression="HasCategory('Category2')" />
+      <Setter Property="Background" Value="#FF339933" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Category 1" ValueLabel="Has category">
+      <Condition Expression="HasCategory('Category1')" />
+      <Setter Property="Background" Value="#FFE51400" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Comment" ValueLabel="Has comment">
+      <Condition Expression="HasCategory('Comment')" />
+      <Setter Property="Background" Value="#FFFFFACD" />
+      <Setter Property="Stroke" Value="#FFE5C365" />
+      <Setter Property="StrokeThickness" Value="1" />
+      <Setter Property="NodeRadius" Value="2" />
+      <Setter Property="MaxWidth" Value="250" />
+    </Style>
+  </Styles>
+</DirectedGraph>

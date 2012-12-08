@@ -19,9 +19,15 @@ namespace LinearProgramming.Controls
         {
             parserOutputControl.LogError(log);
         }
+
         public void ClearLogs()
         {
             parserOutputControl.ClearLogs();
+        }
+
+        private void BtnClearOutputClicked(object sender, RoutedEventArgs e)
+        {
+            ClearLogs();
         }
     }
 }

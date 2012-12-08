@@ -35,12 +35,12 @@ namespace LinearProgramming.Model
             _constraint = new List<LPConstraint>(constraints);
         }
 
-        public LPPolynomial Objective { get; set; }
-
         public List<string> Variables
         {
             get { return Objective.GetVariables; }
         }
+
+        public LPPolynomial Objective { get; set; }
 
         public LPGoalType? GoalKind { get; set; }
 

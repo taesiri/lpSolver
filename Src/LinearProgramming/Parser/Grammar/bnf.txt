@@ -1,0 +1,12 @@
+﻿<lpProgram> ::= <lpAppName> + "{" + lpModel + "}" + ";"
+<lpAppName> ::= "lpmodel" + AppIdentifier
+<lpModel> ::= <lpGoal> + "subject to" + ":" + <lpConstraints>
+<lpGoal> ::= "min" + lpPolynomial | "max" + lpPolynomial
+<lpConstraints> ::= <lpConstraint> | <lpConstraint> + <lpConstraints>
+<lpConstraint> ::= <lpPolynomial> + <lpOperator> + <lpPolynomial> + ";";
+<lpPolynomial> ::= <lpMonomial> | <lpMonomial> + <lpBinOp> + <lpPolynomial>  | <lpNumber> |
+                                <lpNumber> + <lpBinOp> + <lpPolynomial>;
+<lpOperator> ::= "<" | "==" | ">" | "<=" | ">="
+<lpBinOp> ::= "+" | "-"
+<lpMonomial> ::= variable | <lpNumber> + "*" + variable;
+<lpNumber>  ::= number | lpBinOp + number
