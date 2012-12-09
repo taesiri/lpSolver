@@ -14,13 +14,20 @@
                 <Separator />
                 <MenuItem Header="Exit" Click="MnuItemExitClick" />
             </MenuItem>
-            <MenuItem Header="EDIT" />
+            <MenuItem Header="EDIT">
+                <MenuItem Header="Cut" Command="Cut"/>
+                <MenuItem Header="Copy" Command="Copy"/>
+                <MenuItem Header="Paste" Command="Paste"/>
+                <MenuItem Header="Delete"  Command="Delete"/>
+            </MenuItem>
             <MenuItem Header="TOOLS">
                 <MenuItem Header="Solve" />
                 <Separator />
                 <MenuItem Header="Settings" />
             </MenuItem>
-            <MenuItem Header="ABOUT" />
+            <MenuItem Header="ABOUT">
+                <MenuItem Header="About lpSolver"/>
+            </MenuItem>
         </Menu>
 
         <ToolBar Grid.Row="1" Grid.RowSpan="2">
