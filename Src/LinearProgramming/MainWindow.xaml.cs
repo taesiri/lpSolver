@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Windows;
+using System.Windows.Controls.Primitives;
+using System.Windows.Threading;
 using AvalonDock.Layout;
 using Irony;
 using Irony.Parsing;
@@ -22,12 +22,14 @@ namespace LinearProgramming
         public static MainWindow Instance;
 
         private readonly Irony.Parsing.Parser _parser;
+        private readonly DispatcherTimer _parserTimer;
         private string _currentFileName;
         private int _documentCounter = 1;
 
 
         private TextEditorControl _lastActiveDocument;
         private ParseTree _parseTree;
+
 
         public MainWindow()
         {
@@ -36,6 +38,16 @@ namespace LinearProgramming
             Instance = this;
 
             _parser = new Irony.Parsing.Parser(new LinearProgrammingGrammar());
+
+
+            _parserTimer = new DispatcherTimer();
+            _parserTimer.Interval = new TimeSpan(5*1000);
+            _parserTimer.Tick += ParserTimerTick;
+        }
+
+        private void ParserTimerTick(object sender, EventArgs e)
+        {
+            ParseCurrentTab();
         }
 
         private void NewFileClick(object sender, RoutedEventArgs e)
@@ -46,9 +58,11 @@ namespace LinearProgramming
         private void CreateNewFile()
         {
             var editorDocument = new LayoutDocument {Title = "Linear Program Problem " + _documentCounter.ToString()};
-            editorDocument.Content = new TextEditorControl {FileName = editorDocument.Title};
+            editorDocument.Content = new TextEditorControl(editorDocument.Title, _documentCounter);
             CenterDockPane.Children.Add(editorDocument);
             _documentCounter++;
+
+            _parserTimer.Start();
         }
 
 
@@ -57,8 +71,9 @@ namespace LinearProgramming
             var dlg = new OpenFileDialog {CheckFileExists = true, Filter = "{LP Solver Files (*.lps)|*.lps"};
             if ((bool) dlg.ShowDialog())
             {
-                _currentFileName = dlg.FileName;
-                //textEditor.Load(_currentFileName);
+                //_currentFileName = dlg.FileName;
+                ////textEditor.Load(_currentFileName);
+                //_parserTimer.Start();
             }
         }
 
@@ -82,37 +97,40 @@ namespace LinearProgramming
 
         private void BtnSolveClicked(object sender, RoutedEventArgs e)
         {
-            var editor = dockManager.ActiveContent as TextEditorControl;
-            if (editor != null)
-            {
-
-                string code = string.Empty;
-
-                var lines= editor.Lines;
-
-                foreach (var l in lines)
-                {
-                    code += l+"\n";
-                }
-
-                TryParse(code);
-
-                //try
-                //{
-                //    IModelSolver solver = new MicrosoftSolverFoundation(LPModel.TryParse((List<string>) editorText));
-                //    solver.TrySolve();
-                //    string result = solver.GetResult();
-                //    MessageBox.Show(result, "Result", MessageBoxButton.OK, MessageBoxImage.Information);
-                //}
-                //catch (Exception exp)
-                //{
-                //    MessageBox.Show("An Error Occurred in Solving or Parsing the Code!");
-                //}
-            }
+            ParseCurrentTab();
+            //try
+            //{
+            //    IModelSolver solver = new MicrosoftSolverFoundation(LPModel.TryParse((List<string>) editorText));
+            //    solver.TrySolve();
+            //    string result = solver.GetResult();
+            //    MessageBox.Show(result, "Result", MessageBoxButton.OK, MessageBoxImage.Information);
+            //}
+            //catch (Exception exp)
+            //{
+            //    MessageBox.Show("An Error Occurred in Solving or Parsing the Code!");
+            //}
         }
 
 
         //Begin Parser Codes
+
+        public void ParseCurrentTab()
+        {
+            var editor = dockManager.ActiveContent as TextEditorControl;
+            if (editor != null)
+            {
+                string code = string.Empty;
+
+                IEnumerable<string> lines = editor.Lines;
+
+                foreach (string l in lines)
+                {
+                    code += l + "\n";
+                }
+
+                TryParse(code);
+            }
+        }
 
         public void TryParse(string source)
         {
@@ -153,7 +171,7 @@ namespace LinearProgramming
             lpOutlineControl.ClearWindow();
             LPModel output = Modeler.ConvertParseTreeToModel(_parseTree);
             lpOutlineControl.SetLPName(String.Format("{0} : {1}", "Model Name", output.Name));
-            lpOutlineControl.SetObjective(String.Format("{0} : {1}", "Objective", output.Objective));
+            lpOutlineControl.SetObjective(String.Format("{0}", output.Objective));
             List<LPConstraint> constraints = output.GetConstraint;
             foreach (LPConstraint lpConstraint in constraints)
             {
@@ -221,6 +239,18 @@ namespace LinearProgramming
             var d = dockManager.ActiveContent as TextEditorControl;
             if (d != null)
                 _lastActiveDocument = d;
+        }
+
+        private void BtnToggleAutoParserClick(object sender, RoutedEventArgs e)
+        {
+            if ((sender as ToggleButton) != null && (sender as ToggleButton).IsChecked == true)
+            {
+                _parserTimer.IsEnabled = true;
+            }
+            else if ((sender as ToggleButton) != null && (sender as ToggleButton).IsChecked == false)
+            {
+                _parserTimer.IsEnabled = false;
+            }
         }
     }
 }

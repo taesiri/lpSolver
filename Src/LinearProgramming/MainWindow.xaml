@@ -12,14 +12,20 @@
         <Menu Grid.Row="0" Height="23" Name="mainMenu">
             <MenuItem Header="FILE">
                 <MenuItem Header="New" Click="NewFileClick" />
+                <MenuItem Header="Open" />
+                <Separator />
+                <MenuItem Header="Save" />
+                <MenuItem Header="Save As..." />
+                <Separator />
+                <MenuItem Header="Close" />
                 <Separator />
                 <MenuItem Header="Exit" Click="MnuItemExitClick" />
             </MenuItem>
             <MenuItem Header="EDIT">
-                <MenuItem Header="Cut" Command="Cut"/>
-                <MenuItem Header="Copy" Command="Copy"/>
-                <MenuItem Header="Paste" Command="Paste"/>
-                <MenuItem Header="Delete"  Command="Delete"/>
+                <MenuItem Header="Cut" Command="Cut" />
+                <MenuItem Header="Copy" Command="Copy" />
+                <MenuItem Header="Paste" Command="Paste" />
+                <MenuItem Header="Delete" Command="Delete" />
             </MenuItem>
             <MenuItem Header="TOOLS">
                 <MenuItem Header="Solve" />
@@ -27,11 +33,11 @@
                 <MenuItem Header="Settings" />
             </MenuItem>
             <MenuItem Header="WINDOW">
-                <MenuItem Header="Outline" Click="MnuOutlineClick"/>
+                <MenuItem Header="Outline" Click="MnuOutlineClick" />
                 <MenuItem Header="Error List" Click="MnuErrorListClick" />
             </MenuItem>
             <MenuItem Header="ABOUT">
-                <MenuItem Header="About lpSolver"/>
+                <MenuItem Header="About lpSolver" />
             </MenuItem>
         </Menu>
         <ToolBar Grid.Row="1" Grid.RowSpan="2">
@@ -84,11 +90,13 @@
                 <TextBlock Width="16" TextAlignment="Center">¶</TextBlock>
             </CheckBox>
             <Separator />
-            <Button Click="BtnSolveClicked">Parse</Button>
+            <!--<Button Click="BtnSolveClicked">Parse</Button>-->
+            <ToggleButton Click="BtnToggleAutoParserClick" IsChecked="True">Automatic Parse</ToggleButton>
             <Separator />
         </ToolBar>
 
-        <avalonDock:DockingManager Grid.Row="3" x:Name="dockManager" AllowMixedOrientation="True" ActiveContentChanged="DockManagerActiveContentChanged">
+        <avalonDock:DockingManager Grid.Row="3" x:Name="dockManager" AllowMixedOrientation="True"
+                                   ActiveContentChanged="DockManagerActiveContentChanged">
             <avalonDock:DockingManager.Theme>
                 <avalonDock:ExpressionLightTheme />
             </avalonDock:DockingManager.Theme>
@@ -109,8 +117,8 @@
                 <avalonDock:LayoutRoot.BottomSide>
                     <avalonDock:LayoutAnchorSide>
                         <avalonDock:LayoutAnchorGroup x:Name="BottomDocPane">
-                            <avalonDock:LayoutAnchorable x:Name="ParserErrorPane" Title="Error List" AutoHideHeight="100"
-                                                         AutoHideMinHeight="80">
+                            <avalonDock:LayoutAnchorable x:Name="ParserErrorPane" Title="Error List"
+                                                         AutoHideHeight="100" AutoHideMinHeight="80">
                                 <Controls:ParserOutput x:Name="parserErrorControl" />
                             </avalonDock:LayoutAnchorable>
                         </avalonDock:LayoutAnchorGroup>
@@ -120,6 +128,6 @@
             </avalonDock:LayoutRoot>
         </avalonDock:DockingManager>
 
-        <Controls:LPStatusBar x:Name="statusBarControl" Grid.Row="4"/>
+        <Controls:LPStatusBar x:Name="statusBarControl" Grid.Row="4" />
     </Grid>
 </Window>

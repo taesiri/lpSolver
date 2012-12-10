@@ -21,9 +21,11 @@ namespace LinearProgramming.Controls
         private readonly FoldingManager _foldingManager;
         private readonly AbstractFoldingStrategy _foldingStrategy;
 
-        public TextEditorControl()
+        public TextEditorControl(string name, int index)
         {
             InitializeComponent();
+            FileName = name;
+            FileIndex = index;
 
             var foldingUpdateTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(2)};
             foldingUpdateTimer.Tick += FoldingUpdateTimerTick;
@@ -59,8 +61,14 @@ namespace LinearProgramming.Controls
             }
 
             textEditor.Text = "# Welcome to Linear Programming Solver!" + Environment.NewLine;
-            textEditor.Text += "lpmodel ModelName \n{" + Environment.NewLine;
+            textEditor.Text += "lpmodel ModelName" + FileIndex.ToString() + " \n{" + Environment.NewLine;
             textEditor.Text += string.Format("\t# TODO : Objectives {0}{0}", Environment.NewLine + "\t");
+
+            textEditor.Text += "min 10*x + 20*y" + Environment.NewLine;
+            textEditor.Text += "\tsubject to:" + Environment.NewLine;
+            textEditor.Text += "\tx + y > 10;" + Environment.NewLine;
+            textEditor.Text += "\t0<x;" + Environment.NewLine;
+            textEditor.Text += "\t0<y;" + Environment.NewLine;
             textEditor.Text += Environment.NewLine + "\t";
             textEditor.Text += Environment.NewLine;
             textEditor.Text += "};" + Environment.NewLine;
@@ -70,6 +78,7 @@ namespace LinearProgramming.Controls
         }
 
         public string FileName { get; set; }
+        public int FileIndex { get; set; }
 
         public IEnumerable<String> Lines
         {
