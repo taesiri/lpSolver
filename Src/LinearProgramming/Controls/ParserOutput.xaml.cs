@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace LinearProgramming.Controls
 {
@@ -23,9 +24,20 @@ namespace LinearProgramming.Controls
         {
             ECollections.Add(log);
         }
+
         public void ClearLogs()
         {
             ECollections.Clear();
+        }
+
+        private void LvErrorListMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var selectedItem = lvErrorList.SelectedItem as ErrLog;
+
+            if (selectedItem != null)
+            {
+                MainWindow.Instance.SelectTextBoxAtPosition(selectedItem.LogData.Location.Position);
+            }
         }
     }
 }

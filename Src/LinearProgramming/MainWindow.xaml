@@ -7,6 +7,7 @@
             <RowDefinition Height="18.667" />
             <RowDefinition Height="8.333" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="25" />
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" Height="23" Name="mainMenu">
             <MenuItem Header="FILE">
@@ -25,11 +26,14 @@
                 <Separator />
                 <MenuItem Header="Settings" />
             </MenuItem>
+            <MenuItem Header="WINDOW">
+                <MenuItem Header="Outline" Click="MnuOutlineClick"/>
+                <MenuItem Header="Error List" Click="MnuErrorListClick" />
+            </MenuItem>
             <MenuItem Header="ABOUT">
                 <MenuItem Header="About lpSolver"/>
             </MenuItem>
         </Menu>
-
         <ToolBar Grid.Row="1" Grid.RowSpan="2">
             <ToolBar.Resources>
                 <Style TargetType="{x:Type Image}">
@@ -80,12 +84,11 @@
                 <TextBlock Width="16" TextAlignment="Center">¶</TextBlock>
             </CheckBox>
             <Separator />
-            <Button Click="BtnSolveClicked">Solve</Button>
+            <Button Click="BtnSolveClicked">Parse</Button>
             <Separator />
-            <Button Click="Button_Click_1">Something</Button>
         </ToolBar>
 
-        <avalonDock:DockingManager Grid.Row="3" x:Name="dockManager" AllowMixedOrientation="True">
+        <avalonDock:DockingManager Grid.Row="3" x:Name="dockManager" AllowMixedOrientation="True" ActiveContentChanged="DockManagerActiveContentChanged">
             <avalonDock:DockingManager.Theme>
                 <avalonDock:ExpressionLightTheme />
             </avalonDock:DockingManager.Theme>
@@ -96,9 +99,9 @@
                         </avalonDock:LayoutDocumentPane>
                     </avalonDock:LayoutDocumentPaneGroup>
                     <avalonDock:LayoutAnchorablePane DockWidth="190">
-                        <avalonDock:LayoutAnchorable x:Name="LPOutlineAncher" Title="Outline" AutoHideMinWidth="125"
+                        <avalonDock:LayoutAnchorable x:Name="OutlinePane" Title="Outline" AutoHideMinWidth="125"
                                                      AutoHideWidth="180">
-                            <Controls:LPOutline x:Name="lpOutlineW" />
+                            <Controls:LPOutline x:Name="lpOutlineControl" />
                         </avalonDock:LayoutAnchorable>
                     </avalonDock:LayoutAnchorablePane>
                 </avalonDock:LayoutPanel>
@@ -106,9 +109,9 @@
                 <avalonDock:LayoutRoot.BottomSide>
                     <avalonDock:LayoutAnchorSide>
                         <avalonDock:LayoutAnchorGroup x:Name="BottomDocPane">
-                            <avalonDock:LayoutAnchorable x:Name="ParserErrorAncher" Title="Error" AutoHideHeight="100"
+                            <avalonDock:LayoutAnchorable x:Name="ParserErrorPane" Title="Error List" AutoHideHeight="100"
                                                          AutoHideMinHeight="80">
-                                <Controls:ParserOutput x:Name="parserErrorW" />
+                                <Controls:ParserOutput x:Name="parserErrorControl" />
                             </avalonDock:LayoutAnchorable>
                         </avalonDock:LayoutAnchorGroup>
                     </avalonDock:LayoutAnchorSide>
@@ -116,5 +119,7 @@
 
             </avalonDock:LayoutRoot>
         </avalonDock:DockingManager>
+
+        <Controls:LPStatusBar x:Name="statusBarControl" Grid.Row="4"/>
     </Grid>
 </Window>

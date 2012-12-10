@@ -1,12 +1,14 @@
-﻿namespace LinearProgramming.Model
+﻿using System.ComponentModel;
+
+namespace LinearProgramming.Model
 {
     //Left TO Right
     public enum LPOperatorType
     {
-        Equals,
-        LessThan,
-        LessOrEqualsTo,
-        MoreThan,
-        MoreOrEqualsTo
+        [Description("=")] Equals,
+        [Description("<")] LessThan,
+        [Description("<=")] LessOrEqualsTo,
+        [Description(">")] MoreThan,
+        [Description("=>")] MoreOrEqualsTo
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace LinearProgramming.Model
@@ -66,21 +67,34 @@ namespace LinearProgramming.Model
 
         public override string ToString()
         {
-            // TODO: ConvertToReadableString!
             if (_poly.Count == 0)
             {
                 return Constant.ToString();
             }
-            //Else :
-            string tstr = _poly.Aggregate("",
-                                          (current, tuple) =>
-                                          current +
-                                          String.Format("{0} * {1} + ", StringHelper(tuple.Item2), tuple.Item1));
-            tstr = tstr.Remove(tstr.Length - 2, 2);
+            string toStr = string.Empty;
 
-            if (Constant != 0)
-                tstr += " + " + Constant.ToString();
-            return tstr;
+            foreach (var mol in _poly)
+            {
+                if (mol.Item2 == 1.0f)
+                {
+                    toStr += mol.Item1 + " + ";
+                }
+                else
+                {
+                    if (mol.Item2 < 0f)
+                    {
+                        toStr += "(" + mol.Item2.ToString(CultureInfo.InvariantCulture) + ")*" + mol.Item1 + " + ";
+                    }
+                    else
+                    {
+                        toStr += mol.Item2.ToString(CultureInfo.InvariantCulture) + "*" + mol.Item1 + " + ";
+                    }
+                }
+            }
+            toStr = toStr.Remove(toStr.Length - 2, 2);
+            if (Constant != 0.0f)
+                toStr += " + " + Constant.ToString(CultureInfo.InvariantCulture);
+            return toStr;
         }
 
 

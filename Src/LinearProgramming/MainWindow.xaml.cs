@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Windows;
-using AvalonDock;
 using AvalonDock.Layout;
-using AvalonDock.Layout.Serialization;
 using Irony;
 using Irony.Parsing;
 using LinearProgramming.Controls;
@@ -28,6 +24,9 @@ namespace LinearProgramming
         private readonly Irony.Parsing.Parser _parser;
         private string _currentFileName;
         private int _documentCounter = 1;
+
+
+        private TextEditorControl _lastActiveDocument;
         private ParseTree _parseTree;
 
         public MainWindow()
@@ -86,12 +85,17 @@ namespace LinearProgramming
             var editor = dockManager.ActiveContent as TextEditorControl;
             if (editor != null)
             {
-                string strSource = editor.Lines.Aggregate("",
-                                                          (current, line) =>
-                                                          current +
-                                                          (line.ToString(CultureInfo.InvariantCulture) +
-                                                           Environment.NewLine));
-                TryParse(strSource);
+
+                string code = string.Empty;
+
+                var lines= editor.Lines;
+
+                foreach (var l in lines)
+                {
+                    code += l+"\n";
+                }
+
+                TryParse(code);
 
                 //try
                 //{
@@ -104,7 +108,6 @@ namespace LinearProgramming
                 //{
                 //    MessageBox.Show("An Error Occurred in Solving or Parsing the Code!");
                 //}
-
             }
         }
 
@@ -113,7 +116,6 @@ namespace LinearProgramming
 
         public void TryParse(string source)
         {
-
             //ClearParserOutput();
             if (_parser == null || !_parser.Language.CanParse()) return;
             _parseTree = null;
@@ -125,98 +127,100 @@ namespace LinearProgramming
                 _parseTree = _parser.Parse(source);
                 if (_parseTree.HasErrors() == false)
                 {
-                    lpOutlineW.ClearWindow();
-                    LPModel output = Modeler.ConvertParseTreeToModel(_parseTree);
-                    lpOutlineW.SetLPName(output.Name);
-                    List<LPConstraint> constraints = output.GetConstraint;
-                    foreach (LPConstraint lpConstraint in constraints)
-                    {
-                        lpOutlineW.AddConstraint(lpConstraint);
-                    }
-                    List<string> variables = output.Variables;
-                    foreach (string variable in variables)
-                    {
-                        lpOutlineW.AddVariable(variable);
-                    }
+                    UpdateOutlineWindow();
+                    statusBarControl.State = new EditorState("Done.", EnumEditorStates.Normal);
                 }
+                //else
+                //{
+                //    throw new Exception("Could not Parse the Model. Please Check Error List");
+                //}
             }
             catch (Exception exp)
             {
-                //gridCompileErrors.Rows.Add(null, ex.Message, null);
-                //tabBottom.SelectedTab = pageParserOutput;
-                MessageBox.Show(exp.Message, "Parser Error");
+                statusBarControl.State = new EditorState("Parser Error - " + exp.Message, EnumEditorStates.Error);
             }
             finally
             {
                 _parseTree = _parser.Context.CurrentParseTree;
                 ShowCompilerErrors();
-                //if (chkParserTrace.Checked)
-                //{
-                //    ShowParseTrace();
-                //}
-                //ShowCompileStats();
-                //ShowParseTree();
-                //ShowAstTree();
-                MessageBox.Show("Parsing Completed!");
             }
         }
 
         //End Parser Codes
 
-
-        public void UpdateDocumentOutline()
+        private void UpdateOutlineWindow()
         {
-            ////CenterDockPane.Children.Add("");\
-
-            ////var ld = new LayoutDocument();
-            ////ld.Title = "Title here!";
-            ////ld.Content = new TextEditorControl();
-            ////CenterDockPane.Children.Add(ld);
-            ////CenterDockPane.Children.Add(new LayoutDocument()
-            ////{
-            ////    Title = "Classes",
-
-            ////});
-
-            ////foreach (var variable in docS)
-            ////{
-
-            ////}
-
-            ////var editor = dockManager.ActiveContent as TextEditorControl;
-            ////if (editor != null)
-            ////{
-            ////    //docOutline.DoUpdate(editor.Lines);
-            ////}
+            lpOutlineControl.ClearWindow();
+            LPModel output = Modeler.ConvertParseTreeToModel(_parseTree);
+            lpOutlineControl.SetLPName(String.Format("{0} : {1}", "Model Name", output.Name));
+            lpOutlineControl.SetObjective(String.Format("{0} : {1}", "Objective", output.Objective));
+            List<LPConstraint> constraints = output.GetConstraint;
+            foreach (LPConstraint lpConstraint in constraints)
+            {
+                lpOutlineControl.AddConstraint(lpConstraint);
+            }
+            List<string> variables = output.Variables;
+            foreach (string variable in variables)
+            {
+                lpOutlineControl.AddVariable(variable);
+            }
         }
 
         private void ShowCompilerErrors()
         {
-            parserErrorW.ClearLogs();
+            parserErrorControl.ClearLogs();
             if (_parseTree == null || _parseTree.ParserMessages.Count == 0) return;
             foreach (LogMessage err in _parseTree.ParserMessages)
             {
-                parserErrorW.LogError(new ErrLog(err.Message, String.Format("Line {0} at {1}", err.Location.Line,
-                                                                            err.Location.Position),
-                                                 err.ParserState.ToString()));
+                parserErrorControl.LogError(new ErrLog(err.Message, String.Format("Line {0} at {1}", err.Location.Line,
+                                                                                  err.Location.Position),
+                                                       err.ParserState.ToString(), err));
+            }
+            statusBarControl.State = new EditorState("Could not Parse the Model. Please Check Error List",
+                                                     EnumEditorStates.Error);
+        }
+
+
+        public void SelectTextBoxAtPosition(int pos)
+        {
+            if (_lastActiveDocument != null)
+            {
+                _lastActiveDocument.SelectTextAtPosition(pos);
             }
         }
 
         private void MnuItemExitClick(object sender, RoutedEventArgs e)
         {
-          
             Application.Current.Shutdown(0);
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        public void ShowErrorListControl()
         {
-            LPOutlineAncher.Show();
+            ParserErrorPane.Show();
+            ParserErrorPane.IsActive = true;
         }
 
+        public void ShowOutlineControl()
+        {
+            OutlinePane.Show();
+            OutlinePane.IsActive = true;
+        }
 
+        private void MnuErrorListClick(object sender, RoutedEventArgs e)
+        {
+            ShowErrorListControl();
+        }
 
+        private void MnuOutlineClick(object sender, RoutedEventArgs e)
+        {
+            ShowOutlineControl();
+        }
 
-       
-
+        private void DockManagerActiveContentChanged(object sender, EventArgs e)
+        {
+            var d = dockManager.ActiveContent as TextEditorControl;
+            if (d != null)
+                _lastActiveDocument = d;
+        }
     }
 }

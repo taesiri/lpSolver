@@ -10,7 +10,6 @@ using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using ICSharpCode.AvalonEdit.Indentation.CSharp;
 using LinearProgramming.Highlighter;
-using LinearProgramming.Parser;
 
 namespace LinearProgramming.Controls
 {
@@ -21,13 +20,12 @@ namespace LinearProgramming.Controls
     {
         private readonly FoldingManager _foldingManager;
         private readonly AbstractFoldingStrategy _foldingStrategy;
-        public string FileName { get; set; }
 
         public TextEditorControl()
         {
             InitializeComponent();
 
-            var foldingUpdateTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
+            var foldingUpdateTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(2)};
             foldingUpdateTimer.Tick += FoldingUpdateTimerTick;
             foldingUpdateTimer.Start();
 
@@ -71,19 +69,19 @@ namespace LinearProgramming.Controls
             textEditor.ShowLineNumbers = true;
         }
 
+        public string FileName { get; set; }
+
         public IEnumerable<String> Lines
         {
             get
             {
                 //Collecting Lines
-                var pureCode = textEditor.Document.Lines.Select(
+                List<string> code = textEditor.Document.Lines.Select(
                     line => textEditor.Text.Substring(line.Offset, line.Length))
                     .ToList();
 
-                //Cleaning the Code
-                pureCode = ParserHelper.ClearUpTheCode(pureCode);
 
-                return pureCode;
+                return code;
             }
         }
 
@@ -98,7 +96,12 @@ namespace LinearProgramming.Controls
         private void UserControlGotFocus1(object sender, RoutedEventArgs e)
         {
             MainWindow.Instance.dockManager.ActiveContent = Parent;
-            MainWindow.Instance.UpdateDocumentOutline();
+        }
+
+
+        public void SelectTextAtPosition(int pos)
+        {
+            textEditor.Select(pos, 1);
         }
     }
 }

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" Background="White"  DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
-        <ListView x:Name="lvErrorList" ItemsSource="{Binding GetList}">
+        <ListView x:Name="lvErrorList" ItemsSource="{Binding GetList}" MouseDoubleClick="LvErrorListMouseDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Error Message" Width="400" DisplayMemberBinding="{Binding ErrorMessage}" />

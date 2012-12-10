@@ -32,6 +32,11 @@ namespace LinearProgramming.Controls
             TVIName.Header = lpName;
         }
 
+        public void SetObjective(string objtv)
+        {
+            TVObjective.Header = objtv;
+        }
+
         public void AddVariable(string variable)
         {
             Variables.Add(new VariableList(variable));
@@ -41,6 +46,7 @@ namespace LinearProgramming.Controls
         {
             Constraints.Add(new ConstraintList(constraint));
         }
+
         public void ClearWindow()
         {
             Constraints.Clear();
@@ -51,6 +57,7 @@ namespace LinearProgramming.Controls
     public class ConstraintList
     {
         private readonly string _str = "";
+
         public ConstraintList(LPConstraint data)
         {
             InsideConstraint = data;

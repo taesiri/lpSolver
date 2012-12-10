@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LinearProgramming.Helper;
 
 namespace LinearProgramming.Model
 {
@@ -34,7 +35,7 @@ namespace LinearProgramming.Model
 
         public override string ToString()
         {
-            return LeftHand + "  " + OperatorType.ToString() + "  " + RightHand;
+            return LeftHand + "  " + OperatorType.GetDescription<LPOperatorType>() + "  " + RightHand;
         }
     }
 }

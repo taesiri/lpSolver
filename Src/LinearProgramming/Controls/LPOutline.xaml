@@ -6,21 +6,26 @@
              d:DesignWidth="300" DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
         <TreeView Name="TVLPOutline">
-            <TreeViewItem x:Name="TVIName" Header="LPName"></TreeViewItem>
-            <TreeViewItem x:Name="TVIVariables" Header="Variables" ItemsSource="{Binding GetVariables}">
-                <TreeViewItem.ItemTemplate>
-                    <HierarchicalDataTemplate>
-                        <TextBlock Text="{Binding Path=GetVarName}" />
-                    </HierarchicalDataTemplate>
-                </TreeViewItem.ItemTemplate>
+            <TreeViewItem x:Name="TVIName" Header="Linear Program">
+                <TreeViewItem Header="Objective">
+                    <TreeViewItem x:Name="TVObjective" Header="Objective" />
+                </TreeViewItem>
+                <TreeViewItem x:Name="TVIVariables" Header="Variables" ItemsSource="{Binding GetVariables}">
+                    <TreeViewItem.ItemTemplate>
+                        <HierarchicalDataTemplate>
+                            <TextBlock Text="{Binding Path=GetVarName}" />
+                        </HierarchicalDataTemplate>
+                    </TreeViewItem.ItemTemplate>
+                </TreeViewItem>
+                <TreeViewItem x:Name="TVIConstraints" Header="Constraints" ItemsSource="{Binding GetConstraints}">
+                    <TreeViewItem.ItemTemplate>
+                        <HierarchicalDataTemplate>
+                            <TextBlock Text="{Binding GetConstraintString}" />
+                        </HierarchicalDataTemplate>
+                    </TreeViewItem.ItemTemplate>
+                </TreeViewItem>
             </TreeViewItem>
-            <TreeViewItem x:Name="TVIConstraints" Header="Constraints" ItemsSource="{Binding GetConstraints}">
-                <TreeViewItem.ItemTemplate>
-                    <HierarchicalDataTemplate>
-                        <TextBlock Text="{Binding GetConstraintString}" />
-                    </HierarchicalDataTemplate>
-                </TreeViewItem.ItemTemplate>
-            </TreeViewItem>
+
         </TreeView>
     </Grid>
 </UserControl>

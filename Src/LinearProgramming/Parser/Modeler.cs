@@ -44,7 +44,7 @@ namespace LinearProgramming.Parser
                 throw new Exception("The Root element is not Correct");
             }
 
-            return new LPModel(modelName, lpGoal, lpConstraints);
+            return new LPModel(modelName.Replace("(appIdentifier)", "").Replace(" ", ""), lpGoal, lpConstraints);
         }
 
         private static string ParseModelName(ParseTreeNode lpAppNameNode)
@@ -95,7 +95,7 @@ namespace LinearProgramming.Parser
             switch (node.ChildNodes.Count)
             {
                 case 1:
-                    lpPoly.AddNewVariable(node.ChildNodes[0].ToString(), 1f);
+                    lpPoly.AddNewVariable(node.ChildNodes[0].ToString().Replace("(variable)", "").Replace(" ", ""), 1f);
                     break;
                 case 3:
                     double coefficient = 0;

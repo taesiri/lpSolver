@@ -84,9 +84,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\EditorState.cs" />
+    <Compile Include="Controls\EnumEditorStates.cs" />
     <Compile Include="Controls\ErrLog.cs" />
     <Compile Include="Controls\LPOutline.xaml.cs">
       <DependentUpon>LPOutline.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LPStatusBar.xaml.cs">
+      <DependentUpon>LPStatusBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ParserOutput.xaml.cs">
       <DependentUpon>ParserOutput.xaml</DependentUpon>
@@ -94,6 +99,7 @@
     <Compile Include="DocumentOutline.xaml.cs">
       <DependentUpon>DocumentOutline.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helper\Helpers.cs" />
     <Compile Include="Model\LPConstraint.cs" />
     <Compile Include="Model\LPGoal.cs" />
     <Compile Include="Model\LPModel.cs" />
@@ -115,6 +121,10 @@
       <DependentUpon>TextEditorControl.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\LPOutline.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\LPStatusBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
