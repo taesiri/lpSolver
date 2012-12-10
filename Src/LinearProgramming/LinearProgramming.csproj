@@ -169,6 +169,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Resource Include="Parser\Grammar\bnf.txt" />
+    <Resource Include="Images\lpSolverLogo.png" />
     <Content Include="Samples\SampleProgram.lps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
