@@ -56,6 +56,14 @@
     <Reference Include="AvalonDock.Themes.VS2010, Version=2.0.1691.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\Binaries\Lib\AvalonDock.Themes.VS2010.dll</HintPath>
     </Reference>
+    <Reference Include="CodeReason.Reports, Version=0.5.0.0, Culture=neutral, PublicKeyToken=74fc60a060db7911, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\GitHub\Simulation\Binaries\lib\CodeReason.Reports.dll</HintPath>
+    </Reference>
+    <Reference Include="CodeReason.Reports.Charts.Visifire, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\GitHub\Simulation\Binaries\lib\CodeReason.Reports.Charts.Visifire.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.AvalonEdit, Version=4.2.0.8783, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL" />
     <Reference Include="Irony">
       <HintPath>D:\Workspace\Linear Programing Solver\irony_1f7bdd8e9147\Irony\bin\Debug\Irony.dll</HintPath>
@@ -63,6 +71,7 @@
     <Reference Include="Microsoft.Solver.Foundation, Version=3.0.2.10889, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Microsoft.Solver.Foundation.dll</HintPath>
     </Reference>
+    <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -84,7 +93,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\EditorState.cs" />
+    <Compile Include="Controls\lpSolverState.cs" />
     <Compile Include="Controls\EnumEditorStates.cs" />
     <Compile Include="Controls\ErrLog.cs" />
     <Compile Include="Controls\LPOutline.xaml.cs">
@@ -95,9 +104,6 @@
     </Compile>
     <Compile Include="Controls\ParserOutput.xaml.cs">
       <DependentUpon>ParserOutput.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DocumentOutline.xaml.cs">
-      <DependentUpon>DocumentOutline.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helper\Helpers.cs" />
     <Compile Include="Model\LPConstraint.cs" />
@@ -112,6 +118,9 @@
     <Compile Include="Parser\Modeler.cs" />
     <Compile Include="Parser\ParserHelper.cs">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LPReport\LPReportWindow.xaml.cs">
+      <DependentUpon>LPReportWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Solver\IModelSolver.cs" />
     <Compile Include="Model\LPGoalType.cs" />
@@ -132,10 +141,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DocumentOutline.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -153,6 +158,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="LPReport\LPReportWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Content Include="LPReport\ReportTemplate\StandardTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -168,8 +182,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="Samples\SampleProgram2.lps">
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Parser\Grammar\bnf.txt" />
     <Resource Include="Images\lpSolverLogo.png" />
+    <Content Include="LPReport\ReportTemplate\aut.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Samples\SampleProgram.lps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -1,14 +1,14 @@
 namespace LinearProgramming.Controls
 {
-    public class EditorState
+    public class LPSolverState
     {
-        public EditorState()
+        public LPSolverState()
         {
             CurrentState = EnumEditorStates.Normal;
             CurrentMessage = string.Empty;
         }
 
-        public EditorState(string message, EnumEditorStates state)
+        public LPSolverState(string message, EnumEditorStates state)
         {
             CurrentState = state;
             CurrentMessage = message;
@@ -16,5 +16,6 @@ namespace LinearProgramming.Controls
 
         public EnumEditorStates CurrentState { get; set; }
         public string CurrentMessage { get; set; }
+        public string FullMessage { get; set; }
     }
 }

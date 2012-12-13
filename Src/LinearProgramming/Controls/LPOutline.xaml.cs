@@ -51,6 +51,9 @@ namespace LinearProgramming.Controls
         {
             Constraints.Clear();
             Variables.Clear();
+
+            TVObjective.Header = "Objective";
+            TVIName.Header = "Linear Program";
         }
     }
 

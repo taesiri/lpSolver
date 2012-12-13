@@ -9,15 +9,15 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="25" />
         </Grid.RowDefinitions>
-        <Menu Grid.Row="0" Height="23" Name="mainMenu">
+        <Menu Grid.Row="0" Height="23" Name="mainMenu" Grid.ColumnSpan="2">
             <MenuItem Header="FILE">
                 <MenuItem Header="New" Click="NewFileClick" />
                 <MenuItem Header="Open" />
                 <Separator />
-                <MenuItem Header="Save" />
-                <MenuItem Header="Save As..." />
+                <MenuItem Header="Save" Click="SaveFileClick" />
+                <MenuItem Header="Save As..." Click="SaveAsFileClick" />
                 <Separator />
-                <MenuItem Header="Close" />
+                <MenuItem Header="Close" Click="CloseCurrentDocument" />
                 <Separator />
                 <MenuItem Header="Exit" Click="MnuItemExitClick" />
             </MenuItem>
@@ -25,10 +25,11 @@
                 <MenuItem Header="Cut" Command="Cut" />
                 <MenuItem Header="Copy" Command="Copy" />
                 <MenuItem Header="Paste" Command="Paste" />
-                <MenuItem Header="Delete" Command="Delete" />
+                <MenuItem Header="Delete" Command="ApplicationCommands.Delete" />
             </MenuItem>
             <MenuItem Header="TOOLS">
-                <MenuItem Header="Solve" />
+                <MenuItem Header="Solve" Click="BtnSolveClicked"/>
+                <MenuItem Header="Custom Solver" Click="BtnSolveClicked"/>
                 <Separator />
                 <MenuItem Header="Settings" />
             </MenuItem>
@@ -40,7 +41,7 @@
                 <MenuItem Header="About lpSolver" />
             </MenuItem>
         </Menu>
-        <ToolBar Grid.Row="1" Grid.RowSpan="2">
+        <ToolBar Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
             <ToolBar.Resources>
                 <Style TargetType="{x:Type Image}">
                     <Style.Triggers>
@@ -70,7 +71,7 @@
             <Button Command="Paste">
                 <Image Source="Images/Paste.png" Height="16" />
             </Button>
-            <Button Command="Delete">
+            <Button Command="ApplicationCommands.Delete">
                 <Image Source="Images/DeleteIcon.png" Height="16" />
             </Button>
             <Separator />
@@ -90,13 +91,13 @@
                 <TextBlock Width="16" TextAlignment="Center">¶</TextBlock>
             </CheckBox>
             <Separator />
-            <!--<Button Click="BtnSolveClicked">Parse</Button>-->
             <ToggleButton Click="BtnToggleAutoParserClick" IsChecked="True">Automatic Parse</ToggleButton>
             <Separator />
+            <Button Click="BtnSolveClicked">Solve</Button>
         </ToolBar>
 
         <avalonDock:DockingManager Grid.Row="3" x:Name="dockManager" AllowMixedOrientation="True"
-                                   ActiveContentChanged="DockManagerActiveContentChanged">
+                                   ActiveContentChanged="DockManagerActiveContentChanged" Grid.ColumnSpan="2">
             <avalonDock:DockingManager.Theme>
                 <avalonDock:ExpressionLightTheme />
             </avalonDock:DockingManager.Theme>
@@ -128,6 +129,6 @@
             </avalonDock:LayoutRoot>
         </avalonDock:DockingManager>
 
-        <Controls:LPStatusBar x:Name="statusBarControl" Grid.Row="4" />
+        <Controls:LPStatusBar x:Name="statusBarControl" Grid.Row="4" Grid.ColumnSpan="2" />
     </Grid>
 </Window>

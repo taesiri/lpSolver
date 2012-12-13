@@ -10,6 +10,7 @@ using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using ICSharpCode.AvalonEdit.Indentation.CSharp;
 using LinearProgramming.Highlighter;
+using Microsoft.Win32;
 
 namespace LinearProgramming.Controls
 {
@@ -24,8 +25,10 @@ namespace LinearProgramming.Controls
         public TextEditorControl(string name, int index)
         {
             InitializeComponent();
+
             FileName = name;
             FileIndex = index;
+
 
             var foldingUpdateTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(2)};
             foldingUpdateTimer.Tick += FoldingUpdateTimerTick;
@@ -60,7 +63,7 @@ namespace LinearProgramming.Controls
                 }
             }
 
-            textEditor.Text = "# Welcome to Linear Programming Solver!" + Environment.NewLine;
+            textEditor.Text = "# Welcome to lpSolver (Linear Programming Solver)!" + Environment.NewLine;
             textEditor.Text += "lpmodel ModelName" + FileIndex.ToString() + " \n{" + Environment.NewLine;
             textEditor.Text += string.Format("\t# TODO : Objectives {0}{0}", Environment.NewLine + "\t");
 
@@ -75,9 +78,13 @@ namespace LinearProgramming.Controls
             textEditor.Text += "# __EOF" + Environment.NewLine;
 
             textEditor.ShowLineNumbers = true;
+            FileUrl = string.Empty;
         }
 
+        public bool DocumentHasChanged { get; set; }
+
         public string FileName { get; set; }
+        public string FileUrl { get; set; }
         public int FileIndex { get; set; }
 
         public IEnumerable<String> Lines
@@ -88,7 +95,6 @@ namespace LinearProgramming.Controls
                 List<string> code = textEditor.Document.Lines.Select(
                     line => textEditor.Text.Substring(line.Offset, line.Length))
                     .ToList();
-
 
                 return code;
             }
@@ -107,10 +113,95 @@ namespace LinearProgramming.Controls
             MainWindow.Instance.dockManager.ActiveContent = Parent;
         }
 
-
         public void SelectTextAtPosition(int pos)
         {
             textEditor.Select(pos, 1);
+        }
+
+        public void DoClose()
+        {
+            //Check for Changes and Save Dialog
+
+            if (DocumentHasChanged)
+            {
+                //Document needs to be SAVEd!
+                MessageBoxResult result = MessageBox.Show("", "", MessageBoxButton.YesNoCancel);
+
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        DoSave();
+                        break;
+                    case MessageBoxResult.Cancel:
+                        break;
+                    case MessageBoxResult.No:
+                        return;
+                        break;
+                    default:
+                        return;
+                }
+            }
+
+            MessageBox.Show("");
+        }
+
+        public void DoSave()
+        {
+            string code = string.Empty;
+            IEnumerable<string> lines = Lines;
+            code = lines.Aggregate(code, (current, l) => current + (l + "\n"));
+
+            if (FileUrl == string.Empty)
+            {
+                var dlg = new SaveFileDialog {Filter = "lsSolver Model File (*.lps)|*.lps"};
+                if ((bool) dlg.ShowDialog())
+                {
+                    FileUrl = dlg.FileName;
+                    Save(code);
+                }
+            }
+            else
+            {
+                Save(code);
+            }
+        }
+
+        private void Save(string codes)
+        {
+            try
+            {
+                var strWriter = new StreamWriter(FileUrl, false);
+                strWriter.Write(codes);
+                strWriter.Close();
+
+                DocumentHasChanged = false;
+            }
+            catch (Exception exp)
+            {
+                //Sucks! this is not event standard way to Log error! Consider ReWriting the Log,ErrorLog Control | System
+                MainWindow.Instance.statusBarControl.State = new LPSolverState("Could not Save file",
+                                                                               EnumEditorStates.Error)
+                                                                 {CurrentMessage = exp.Message};
+            }
+        }
+
+        public void DoSaveAs()
+        {
+            string tmp = FileUrl;
+            FileUrl = string.Empty;
+            try
+            {
+                DoSave();
+            }
+            finally
+            {
+                FileUrl = tmp;
+            }
+        }
+
+        private void TextEditorTextChanged(object sender, EventArgs e)
+        {
+            DocumentHasChanged = true;
         }
     }
 }

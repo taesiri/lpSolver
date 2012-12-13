@@ -9,6 +9,6 @@ namespace LinearProgramming.Model
         [Description("<")] LessThan,
         [Description("<=")] LessOrEqualsTo,
         [Description(">")] MoreThan,
-        [Description("=>")] MoreOrEqualsTo
+        [Description(">=")] MoreOrEqualsTo
     }
 }

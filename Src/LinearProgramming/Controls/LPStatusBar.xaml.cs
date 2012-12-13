@@ -8,15 +8,15 @@ namespace LinearProgramming.Controls
     /// </summary>
     public partial class LPStatusBar
     {
-        private EditorState _state;
+        private LPSolverState _state;
 
         public LPStatusBar()
         {
             InitializeComponent();
-            State = new EditorState();
+            State = new LPSolverState();
         }
 
-        public EditorState State
+        public LPSolverState State
         {
             get { return _state; }
             set

@@ -7,7 +7,7 @@
 			 d:DesignHeight="300" d:DesignWidth="300" GotFocus="UserControlGotFocus1">
 	<Grid>
 		<avalonedit:TextEditor Name="textEditor" FontFamily="Consolas" FontSize="10pt" SyntaxHighlighting="C#"
-									   Text="// Welcome to LP Solver" Background="Lavender">
+									   Text="// Welcome to LP Solver" Background="Lavender" TextChanged="TextEditorTextChanged">
 			<avalonedit:TextEditor.ContextMenu>
 				<ContextMenu>
 					<MenuItem Command="Undo" />
