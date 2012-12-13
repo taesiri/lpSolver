@@ -28,8 +28,7 @@ namespace LinearProgramming.Controls
 
             FileName = name;
             FileIndex = index;
-
-
+            
             var foldingUpdateTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(2)};
             foldingUpdateTimer.Tick += FoldingUpdateTimerTick;
             foldingUpdateTimer.Start();

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -99,7 +98,6 @@ namespace LinearProgramming
         {
             if (_lastActiveDocument != null)
             {
-
                 _lastActiveDocument.DoSave();
             }
         }
@@ -111,11 +109,12 @@ namespace LinearProgramming
                 _lastActiveDocument.DoSaveAs();
             }
         }
-        
+
         private void CloseCurrentDocument(object sender, RoutedEventArgs e)
         {
             if (_lastActiveDocument != null)
             {
+                // TODO : Close Current Active Document
                 _lastActiveDocument.DoClose();
             }
         }
@@ -137,13 +136,12 @@ namespace LinearProgramming
             //    MessageBox.Show("An Error Occurred in Solving or Parsing the Code!");
             //}
 
-            if (MessageBox.Show("Do you want to Generate Report","Report ?", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Do you want to Generate Report", "Report ?", MessageBoxButton.YesNo) ==
+                MessageBoxResult.Yes)
             {
-                
                 var reportWindow = new LPReportWindow();
                 reportWindow.Show();
             }
-
         }
 
 
@@ -271,7 +269,6 @@ namespace LinearProgramming
             var d = dockManager.ActiveContent as TextEditorControl;
             if (d != null)
                 _lastActiveDocument = d;
-           
         }
 
 
@@ -286,7 +283,5 @@ namespace LinearProgramming
                 _parserTimer.IsEnabled = false;
             }
         }
-
-      
     }
 }

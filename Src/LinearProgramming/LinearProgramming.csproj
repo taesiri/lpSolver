@@ -40,8 +40,7 @@
     <StartupObject>LinearProgramming.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>lpSolverLogo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AvalonDock, Version=2.0.1691.0, Culture=neutral, PublicKeyToken=96637cf0d3eefdfb, processorArchitecture=MSIL">
@@ -182,6 +181,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="lpSolverLogo.ico" />
     <Content Include="Samples\SampleProgram2.lps">
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
