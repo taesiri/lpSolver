@@ -42,7 +42,7 @@ namespace LinearProgramming.Grammar
             lpConstraint.Rule = lpPolynomial + lpOperator + lpPolynomial + ";";
 
             
-            lpOperator.Rule = ToTerm("<") | "==" | ">" | "<=" | ">=";
+            lpOperator.Rule = ToTerm("<") | "==" | ">" | "=<" | ">=";
 
            
             lpPolynomial.Rule = lpMonomial | lpMonomial + lpBinOp + lpPolynomial  | lpNumber |

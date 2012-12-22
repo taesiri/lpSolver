@@ -110,6 +110,7 @@
     <Compile Include="Model\LPModel.cs" />
     <Compile Include="Model\LPOperatorType.cs" />
     <Compile Include="Model\LPPolynomial.cs" />
+    <Compile Include="Model\LPSolution.cs" />
     <Compile Include="Model\StandardLPModel.cs" />
     <Compile Include="Parser\Grammar\lpGrammar.cs">
       <SubType>Code</SubType>
@@ -181,6 +182,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="Samples\SampleProgram3.lps">
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="lpSolverLogo.ico" />
     <Content Include="Samples\SampleProgram2.lps">
       <Generator>MSBuild:Compile</Generator>

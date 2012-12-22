@@ -1,0 +1,17 @@
+﻿# Welcome to lpSolver (Linear Programming Solver)!
+lpmodel ModelName1 
+{
+	# TODO : Objectives 
+	
+	min 20.0 * sa + 15.0 * vz
+	subject to:
+  	0.3 * sa + 0.4 * vz >= 2000;
+    0.4 * sa + 0.2 * vz >= 1500;
+    0.2 * sa + 0.3 * vz >= 500;
+	9000 >= sa;
+	6000 >= vz;
+	sa >= 0;
+	vz >= 0;
+	
+};
+# __EOF

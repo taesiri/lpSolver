@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -65,6 +66,7 @@ namespace LinearProgramming
             _documentCounter++;
 
             _parserTimer.Start();
+            tBtn_AutoParse.IsChecked = true;
         }
 
         private void EditorDocumentClosing(object sender, CancelEventArgs e)
@@ -85,12 +87,40 @@ namespace LinearProgramming
 
         private void OpenFileClick(object sender, RoutedEventArgs e)
         {
-            var dlg = new OpenFileDialog {CheckFileExists = true, Filter = "{LP Solver Files (*.lps)|*.lps"};
+            var dlg = new OpenFileDialog
+                          {CheckFileExists = true, Filter = "{LP Solver Files (*.lps)|*.lps", Multiselect = false};
+
             if ((bool) dlg.ShowDialog())
             {
-                //_currentFileName = dlg.FileName;
-                ////textEditor.Load(_currentFileName);
-                //_parserTimer.Start();
+                try
+                {
+                    var strReader = new StreamReader(dlg.FileName);
+                    string data = strReader.ReadToEnd();
+                    strReader.Close();
+
+                    var editorDocument = new LayoutDocument
+                                             {
+                                                 Title =
+                                                     dlg.FileName.Substring(
+                                                         dlg.FileName.LastIndexOf("\\", StringComparison.Ordinal) + 1)
+                                             };
+
+                    editorDocument.Content = new TextEditorControl(editorDocument.Title, _documentCounter, data)
+                                                 {FileUrl = dlg.FileName};
+
+                    editorDocument.Closing += EditorDocumentClosing;
+                    CenterDockPane.Children.Add(editorDocument);
+                    _documentCounter++;
+
+
+                    _parserTimer.Start();
+                    tBtn_AutoParse.IsChecked = true;
+                }
+                catch (Exception exp)
+                {
+                    statusBarControl.State = new LPSolverState("Could not Load file :" + exp.Message,
+                                                               EnumEditorStates.Error);
+                }
             }
         }
 
@@ -139,7 +169,8 @@ namespace LinearProgramming
             if (MessageBox.Show("Do you want to Generate Report", "Report ?", MessageBoxButton.YesNo) ==
                 MessageBoxResult.Yes)
             {
-                var reportWindow = new LPReportWindow();
+                var da = Modeler.ConvertParseTreeToModel(_parseTree);
+                var reportWindow = new LPReportWindow(da);
                 reportWindow.Show();
             }
         }

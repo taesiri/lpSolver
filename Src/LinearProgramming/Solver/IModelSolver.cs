@@ -1,6 +1,4 @@
-﻿using LinearProgramming.Model;
-
-namespace LinearProgramming.Solver
+﻿namespace LinearProgramming.Solver
 {
     public interface IModelSolver
     {

@@ -80,6 +80,52 @@ namespace LinearProgramming.Controls
             FileUrl = string.Empty;
         }
 
+        public TextEditorControl(string name, int index, string code)
+        {
+            InitializeComponent();
+
+            FileName = name;
+            FileIndex = index;
+
+            var foldingUpdateTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
+            foldingUpdateTimer.Tick += FoldingUpdateTimerTick;
+            foldingUpdateTimer.Start();
+
+            if (File.Exists(@"Highlighter\CustomHighlighting.xshd"))
+            {
+                var fileStream = new FileStream(@"Highlighter\CustomHighlighting.xshd", FileMode.Open, FileAccess.Read);
+                using (var reader = new XmlTextReader(fileStream))
+                {
+                    textEditor.SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
+                }
+                fileStream.Close();
+            }
+
+            textEditor.TextArea.IndentationStrategy =
+                new CSharpIndentationStrategy(textEditor.Options);
+            _foldingStrategy = new BEFoldingStrategy();
+
+            if (_foldingStrategy != null)
+            {
+                if (_foldingManager == null)
+                    _foldingManager = FoldingManager.Install(textEditor.TextArea);
+                _foldingStrategy.UpdateFoldings(_foldingManager, textEditor.Document);
+            }
+            else
+            {
+                if (_foldingManager != null)
+                {
+                    FoldingManager.Uninstall(_foldingManager);
+                    _foldingManager = null;
+                }
+            }
+
+            textEditor.Text = code;
+
+            textEditor.ShowLineNumbers = true;
+            FileUrl = string.Empty;
+        }
+
         public bool DocumentHasChanged { get; set; }
 
         public string FileName { get; set; }
@@ -135,7 +181,6 @@ namespace LinearProgramming.Controls
                         break;
                     case MessageBoxResult.No:
                         return;
-                        break;
                     default:
                         return;
                 }

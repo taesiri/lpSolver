@@ -10,6 +10,7 @@ namespace LinearProgramming.Solver
         private readonly LPModel _dataModel;
         private bool _isSolved;
         private string _result;
+        private LPSolution _solution;
 
         public MicrosoftSolverFoundation(LPModel model)
         {
@@ -56,8 +57,14 @@ namespace LinearProgramming.Solver
                 //Add Goal
                 model.AddGoal("Answer", gKind, _dataModel.Objective.ToString());
 
-                Solution solution = context.Solve(new SimplexDirective());
+
+                Solution solution = context.Solve(new SimplexDirective {GetSensitivity = true});
                 Report report = solution.GetReport();
+
+                //report.Directives.GetEnumerator();
+
+                //var a = report as LinearReport;
+                //a.
                 string result = "";
 
                 foreach (Decision dec in vDecisions)
@@ -71,8 +78,10 @@ namespace LinearProgramming.Solver
                 context.ClearModel();
                 _result = result;
                 _isSolved = true;
+
+                _solution = new LPSolution(result);
             }
-            catch (Exception exp)
+            catch (Exception)
             {
                 throw new Exception("Solver - An Error has been occurred during solving model!");
             }
@@ -93,5 +102,12 @@ namespace LinearProgramming.Solver
         }
 
         #endregion
+
+        public LPSolution GetSolution()
+        {
+            if (_isSolved)
+                return _solution;
+            throw new Exception("The Model is not Solved Yet!");
+        }
     }
 }

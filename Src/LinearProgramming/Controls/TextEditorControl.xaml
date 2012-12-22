@@ -10,13 +10,13 @@
         <avalonedit:TextEditor Name="textEditor" FontFamily="Consolas" FontSize="10pt" SyntaxHighlighting="C#"
                                Text="// Welcome to LP Solver" Background="Lavender" TextChanged="TextEditorTextChanged">
             <avalonedit:TextEditor.ContextMenu>
-                <ContextMenu Background="DarkGray">
-                    <MenuItem Command="Undo" Foreground="Black"/>
-                    <MenuItem Command="Redo" Foreground="Black"/>
+                <ContextMenu >
+                    <MenuItem Command="Undo" />
+                    <MenuItem Command="Redo" />
                     <Separator />
-                    <MenuItem Command="Cut" Foreground="Black"/>
-                    <MenuItem Command="Copy" Foreground="Black" />
-                    <MenuItem Command="Paste" Foreground="Black"/>
+                    <MenuItem Command="Cut" />
+                    <MenuItem Command="Copy"  />
+                    <MenuItem Command="Paste"/>
                 </ContextMenu>
             </avalonedit:TextEditor.ContextMenu>
         </avalonedit:TextEditor>

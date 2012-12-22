@@ -1,4 +1,4 @@
-﻿﻿<FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿﻿ <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
               xmlns:xrd="clr-namespace:CodeReason.Reports.Document;assembly=CodeReason.Reports"
               xmlns:crcv="clr-namespace:CodeReason.Reports.Charts.Visifire;assembly=CodeReason.Reports.Charts.Visifire"
@@ -48,9 +48,11 @@
         <Paragraph/>
         <Paragraph/>
         <Paragraph/>
-        <Paragraph/>
         <Paragraph TextAlignment="Center" FontFamily="Arial" FontSize="24" FontWeight="Bold">
-			تهیه کننده
+            تهیه کنندگان
+        </Paragraph>
+        <Paragraph TextAlignment="Center" FontFamily="Arial" FontSize="18">
+            فاطمه نيک خواه - 8828096
         </Paragraph>
         <Paragraph TextAlignment="Center" FontFamily="Arial" FontSize="18">
             محمدرضا تأثیری - 8812076
@@ -62,4 +64,27 @@
             [This Page Intentionally Left Blank]
         </Paragraph>
     </Section>
+
+    <Section Padding="80,40,40,30" BreakPageBefore="True">
+        <Paragraph TextAlignment="Left" FontFamily="Segoe UI" FontSize="20">
+            Model Summery
+        </Paragraph>
+        <Paragraph/>
+        <Paragraph FontSize="16" FontFamily="Segoe UI">
+            <xrd:InlineDocumentValue PropertyName="ModelGoal" />
+        </Paragraph>
+        <Paragraph TextAlignment="Left" FontSize="16" FontFamily="Segoe UI">
+            Subject to :
+        </Paragraph>
+        <Paragraph FontSize="14" FontFamily="Segoe UI">
+            <xrd:InlineDocumentValue PropertyName="ModelConstraints" />
+        </Paragraph>
+    </Section>
+    <Section Padding="120,40,40,45" BreakPageBefore="True">
+        <Paragraph/>
+        <Paragraph FontFamily="Segoe UI" FontSize="14" FontStyle="Italic"  TextAlignment="Left">
+            <xrd:InlineDocumentValue PropertyName="ReportSec" />
+        </Paragraph>
+    </Section>
+
 </FlowDocument>

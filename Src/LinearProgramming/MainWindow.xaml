@@ -91,7 +91,7 @@
                 <TextBlock Width="16" TextAlignment="Center">¶</TextBlock>
             </CheckBox>
             <Separator />
-            <ToggleButton Click="BtnToggleAutoParserClick" IsChecked="True">Automatic Parse</ToggleButton>
+            <ToggleButton x:Name="tBtn_AutoParse"   Click="BtnToggleAutoParserClick" IsChecked="True">Automatic Parse</ToggleButton>
             <Separator />
             <Button Click="BtnSolveClicked">Solve</Button>
         </ToolBar>
