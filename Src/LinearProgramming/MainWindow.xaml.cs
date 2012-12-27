@@ -169,7 +169,7 @@ namespace LinearProgramming
             if (MessageBox.Show("Do you want to Generate Report", "Report ?", MessageBoxButton.YesNo) ==
                 MessageBoxResult.Yes)
             {
-                var da = Modeler.ConvertParseTreeToModel(_parseTree);
+                LPModel da = Modeler.ConvertParseTreeToModel(_parseTree);
                 var reportWindow = new LPReportWindow(da);
                 reportWindow.Show();
             }
@@ -183,13 +183,18 @@ namespace LinearProgramming
             var editor = dockManager.ActiveContent as TextEditorControl;
             if (editor != null)
             {
-                string code = string.Empty;
+                if (editor.IsTextChanged)
+                {
+                    string code = string.Empty;
 
-                IEnumerable<string> lines = editor.Lines;
+                    IEnumerable<string> lines = editor.Lines;
 
-                code = lines.Aggregate(code, (current, l) => current + (l + "\n"));
+                    code = lines.Aggregate(code, (current, l) => current + (l + "\n"));
 
-                TryParse(code);
+                    TryParse(code);
+
+                    editor.TextParsed();
+                }
             }
         }
 

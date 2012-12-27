@@ -21,6 +21,7 @@ namespace LinearProgramming.Controls
     {
         private readonly FoldingManager _foldingManager;
         private readonly AbstractFoldingStrategy _foldingStrategy;
+        private bool _isTextChanged;
 
         public TextEditorControl(string name, int index)
         {
@@ -28,7 +29,7 @@ namespace LinearProgramming.Controls
 
             FileName = name;
             FileIndex = index;
-            
+
             var foldingUpdateTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(2)};
             foldingUpdateTimer.Tick += FoldingUpdateTimerTick;
             foldingUpdateTimer.Start();
@@ -87,7 +88,7 @@ namespace LinearProgramming.Controls
             FileName = name;
             FileIndex = index;
 
-            var foldingUpdateTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
+            var foldingUpdateTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(2)};
             foldingUpdateTimer.Tick += FoldingUpdateTimerTick;
             foldingUpdateTimer.Start();
 
@@ -142,6 +143,14 @@ namespace LinearProgramming.Controls
                     .ToList();
 
                 return code;
+            }
+        }
+
+        public bool IsTextChanged
+        {
+            get
+            {
+                return _isTextChanged;
             }
         }
 
@@ -246,6 +255,12 @@ namespace LinearProgramming.Controls
         private void TextEditorTextChanged(object sender, EventArgs e)
         {
             DocumentHasChanged = true;
+            _isTextChanged = true;
+        }
+
+        public void TextParsed()
+        {
+            _isTextChanged = false;
         }
     }
 }

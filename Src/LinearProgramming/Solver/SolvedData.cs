@@ -22,11 +22,14 @@ namespace LinearProgramming.Solver
         {
             _solvedData.Add(new Tuple<string, long>(name, value));
         }
+
         public override string ToString()
         {
-            return _solvedData.Aggregate("", 
-                (current, tuple) => current + (String.Format("Variable {0}; Value {1}", 
-                    tuple.Item1, tuple.Item2) + Environment.NewLine));
+            return _solvedData.Aggregate("",
+                                         (current, tuple) => current + (String.Format("Variable {0}; Value {1}",
+                                                                                      tuple.Item1, tuple.Item2) +
+                                                                        Environment.NewLine));
         }
     }
 }
+
