@@ -178,7 +178,7 @@ namespace LinearProgramming.Parser
                     return LPOperatorType.Equals;
                 case "<":
                     return LPOperatorType.LessThan;
-                case "=<":
+                case "<=":
                     return LPOperatorType.LessOrEqualsTo;
                 case ">":
                     return LPOperatorType.MoreThan;
