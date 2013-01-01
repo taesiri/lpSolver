@@ -193,6 +193,9 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Samples\SampleProgram4.lps">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="lpSolverLogo.ico" />
     <Content Include="Samples\SampleProgram2.lps">
       <Generator>MSBuild:Compile</Generator>

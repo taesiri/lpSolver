@@ -12,6 +12,5 @@ lpmodel ModelName1
 	x3 + x4 + y2 + y3 >= 15;
 	x4 + y3 >= 10;
 
-	
 };
 # __EOF
