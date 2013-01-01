@@ -1,5 +1,5 @@
 ﻿# Welcome to lpSolver (Linear Programming Solver)!
-lpmodel ModelName1 
+lpmodel JustAnotherSample 
 {
 	# TODO : Objectives 
 	
