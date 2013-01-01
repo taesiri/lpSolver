@@ -82,7 +82,7 @@
     </Section>
     <Section Padding="120,40,40,45" BreakPageBefore="True">
         <Paragraph/>
-        <Paragraph FontFamily="Segoe UI" FontSize="14" FontStyle="Italic"  TextAlignment="Left">
+        <Paragraph FontFamily="Segoe UI" FontSize="14" TextAlignment="Left">
             <xrd:InlineDocumentValue PropertyName="ReportSec" />
         </Paragraph>
     </Section>

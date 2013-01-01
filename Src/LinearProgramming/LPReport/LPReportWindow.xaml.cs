@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Xps.Packaging;
@@ -33,11 +34,13 @@ namespace LinearProgramming.LPReport
             {
                 var reportDocument = new ReportDocument();
 
+                String appStartPath = System.IO.Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+
                 var reader =
-                    new StreamReader(new FileStream(@"LPReport\ReportTemplate\StandardTemplate.xaml", FileMode.Open,
+                    new StreamReader(new FileStream(appStartPath + @"\LPReport\ReportTemplate\StandardTemplate.xaml", FileMode.Open,
                                                     FileAccess.Read));
                 reportDocument.XamlData = reader.ReadToEnd();
-                reportDocument.XamlImagePath = Path.Combine(Environment.CurrentDirectory, @"LPReport\ReportTemplate");
+                reportDocument.XamlImagePath = Path.Combine(Environment.CurrentDirectory,appStartPath + @"\LPReport\ReportTemplate");
                 reader.Close();
 
                 var data = new ReportData();

@@ -19,7 +19,7 @@ using Microsoft.Win32;
 namespace LinearProgramming
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow
     {
@@ -66,7 +66,7 @@ namespace LinearProgramming
             _documentCounter++;
 
             _parserTimer.Start();
-            tBtn_AutoParse.IsChecked = true;
+            TBtnAutoParse.IsChecked = true;
         }
 
         private void EditorDocumentClosing(object sender, CancelEventArgs e)
@@ -88,7 +88,7 @@ namespace LinearProgramming
         private void OpenFileClick(object sender, RoutedEventArgs e)
         {
             var dlg = new OpenFileDialog
-                          {CheckFileExists = true, Filter = "{LP Solver Files (*.lps)|*.lps", Multiselect = false};
+                {CheckFileExists = true, Filter = "{LP Solver Files (*.lps)|*.lps", Multiselect = false};
 
             if ((bool) dlg.ShowDialog())
             {
@@ -99,14 +99,14 @@ namespace LinearProgramming
                     strReader.Close();
 
                     var editorDocument = new LayoutDocument
-                                             {
-                                                 Title =
-                                                     dlg.FileName.Substring(
-                                                         dlg.FileName.LastIndexOf("\\", StringComparison.Ordinal) + 1)
-                                             };
+                        {
+                            Title =
+                                dlg.FileName.Substring(
+                                    dlg.FileName.LastIndexOf("\\", StringComparison.Ordinal) + 1)
+                        };
 
                     editorDocument.Content = new TextEditorControl(editorDocument.Title, _documentCounter, data)
-                                                 {FileUrl = dlg.FileName};
+                        {FileUrl = dlg.FileName};
 
                     editorDocument.Closing += EditorDocumentClosing;
                     CenterDockPane.Children.Add(editorDocument);
@@ -114,7 +114,7 @@ namespace LinearProgramming
 
 
                     _parserTimer.Start();
-                    tBtn_AutoParse.IsChecked = true;
+                    TBtnAutoParse.IsChecked = true;
                 }
                 catch (Exception exp)
                 {
@@ -151,30 +151,20 @@ namespace LinearProgramming
 
         private void BtnSolveClicked(object sender, RoutedEventArgs e)
         {
-            ParseCurrentTab();
-
-
-            //try
-            //{
-            //    IModelSolver solver = new MicrosoftSolverFoundation(LPModel.TryParse((List<string>) editorText));
-            //    solver.TrySolve();
-            //    string result = solver.GetResult();
-            //    MessageBox.Show(result, "Result", MessageBoxButton.OK, MessageBoxImage.Information);
-            //}
-            //catch (Exception exp)
-            //{
-            //    MessageBox.Show("An Error Occurred in Solving or Parsing the Code!");
-            //}
-
-            if (MessageBox.Show("Do you want to Generate Report", "Report ?", MessageBoxButton.YesNo) ==
-                MessageBoxResult.Yes)
+            var editor = dockManager.ActiveContent as TextEditorControl;
+            if (editor != null)
             {
-                LPModel da = Modeler.ConvertParseTreeToModel(_parseTree);
-                var reportWindow = new LPReportWindow(da);
-                reportWindow.Show();
+                ParseCurrentTab();
+
+                if (MessageBox.Show("Do you want to Generate Report", "Report ?", MessageBoxButton.YesNo) ==
+                    MessageBoxResult.Yes)
+                {
+                    LPModel da = Modeler.ConvertParseTreeToModel(_parseTree);
+                    var reportWindow = new LPReportWindow(da);
+                    reportWindow.Show();
+                }
             }
         }
-
 
         //Begin Parser Codes
 
@@ -318,6 +308,12 @@ namespace LinearProgramming
             {
                 _parserTimer.IsEnabled = false;
             }
+        }
+
+        private void MenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            var about = new About();
+            about.ShowDialog();
         }
     }
 }
